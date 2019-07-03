@@ -1,0 +1,5 @@
+export default  {
+  inte_client_id: "your client id",
+  inte_client_secret: "your client secret",
+  inte_url: "https://integration.utt.fr/api/",
+}
