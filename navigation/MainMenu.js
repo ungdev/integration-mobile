@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, AsyncStorage } from 'react-native'
+import { View, StyleSheet, AsyncStorage, Dimensions } from 'react-native'
 import { Appbar } from 'react-native-paper'
 import GridButton from '../components/Menu/GridButton'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -166,6 +166,12 @@ class MainMenu extends React.Component {
           />
         )
       })
+      if (rowContent.length < 3) {
+        rowContent.push(<View style={styles.empty} />)
+      }
+      if (rowContent.length < 3) {
+        rowContent.push(<View style={styles.empty} />)
+      }
       grid.push(
         <View key={key++} style={styles.row}>
           {rowContent}
@@ -201,6 +207,12 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     backgroundColor: '#333'
+  },
+  empty: {
+    width: Dimensions.get('window').width / 3 - 6,
+    height: Dimensions.get('window').width / 3 - 6,
+    marginHorizontal: 1,
+    marginVertical: 1
   }
 })
 
