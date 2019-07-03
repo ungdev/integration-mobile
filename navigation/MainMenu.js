@@ -1,5 +1,11 @@
 import React from 'react'
-import { View, StyleSheet, AsyncStorage, Dimensions } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  AsyncStorage,
+  Dimensions,
+  Linking
+} from 'react-native'
 import { Appbar } from 'react-native-paper'
 import GridButton from '../components/Menu/GridButton'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -37,6 +43,15 @@ class MainMenu extends React.Component {
     switch (d) {
       case 'profile':
         this.props.navigation.navigate('Profile')
+        break
+      case 'slack':
+        Linking.canOpenURL('slack://open').then(supported => {
+          if (supported) {
+            Linking.openURL('slack://open')
+          } else {
+            Linking.openURL('https://bde-utt.slack.com/')
+          }
+        })
         break
       case 'logout':
         this.logout()
@@ -98,7 +113,8 @@ class MainMenu extends React.Component {
     content.push(
       {
         name: 'Slack',
-        image: 'slack'
+        image: 'slack',
+        destination: 'slack'
       },
       {
         name: 'Listes',
@@ -167,10 +183,10 @@ class MainMenu extends React.Component {
         )
       })
       if (rowContent.length < 3) {
-        rowContent.push(<View style={styles.empty} />)
+        rowContent.push(<View style={styles.empty} key={key++} />)
       }
       if (rowContent.length < 3) {
-        rowContent.push(<View style={styles.empty} />)
+        rowContent.push(<View style={styles.empty} key={key++} />)
       }
       grid.push(
         <View key={key++} style={styles.row}>
