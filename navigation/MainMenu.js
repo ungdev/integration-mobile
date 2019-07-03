@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  ActivityIndicator,
   View,
   StyleSheet,
   AsyncStorage,
@@ -44,6 +45,9 @@ class MainMenu extends React.Component {
       case 'profile':
         this.props.navigation.navigate('Profile')
         break
+      case 'points':
+        this.props.navigation.navigate('Points')
+        break
       case 'slack':
         Linking.canOpenURL('slack://open').then(supported => {
           if (supported) {
@@ -85,6 +89,14 @@ class MainMenu extends React.Component {
   }
 
   render() {
+    const { user } = this.props.screenProps
+    if (!user) {
+      return (
+        <View style={styles.spin}>
+          <ActivityIndicator size='large' color='#4098ff' />
+        </View>
+      )
+    }
     let grid = []
     let content = [
       {
@@ -94,7 +106,8 @@ class MainMenu extends React.Component {
       },
       {
         name: 'Points',
-        image: 'trophy'
+        image: 'trophy',
+        destination: 'points'
       },
       {
         name: 'Plan',
@@ -110,42 +123,49 @@ class MainMenu extends React.Component {
       }
     ]
     //orga
-    content.push(
-      {
-        name: 'Slack',
-        image: 'slack',
-        destination: 'slack'
-      },
-      {
-        name: 'Listes',
-        image: 'tasks'
-      }
-    )
+    if (user.orga) {
+      content.push(
+        {
+          name: 'Slack',
+          image: 'slack',
+          destination: 'slack'
+        },
+        {
+          name: 'Listes',
+          image: 'tasks'
+        }
+      )
+    }
 
     //ce ou nouveau
-    content.push({
-      name: 'Mon équipe',
-      image: 'users'
-    })
+    if (user.team) {
+      content.push({
+        name: 'Mon équipe',
+        image: 'users'
+      })
+    }
 
     // tous sauf nouveau
-
-    content.push({
-      name: 'Perms',
-      image: 'table'
-    })
+    if (!user.is_newcomer) {
+      content.push({
+        name: 'Perms',
+        image: 'table'
+      })
+    }
 
     //admin
-    content.push(
-      {
-        name: 'Équipes',
-        image: 'users'
-      },
-      {
-        name: 'Étudiants',
-        image: 'list-ul'
-      }
-    )
+    if (user.admin) {
+      content.push(
+        {
+          name: 'Équipes',
+          image: 'users'
+        },
+        {
+          name: 'Étudiants',
+          image: 'list-ul'
+        }
+      )
+    }
 
     content.push(
       {
@@ -229,6 +249,11 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').width / 3 - 6,
     marginHorizontal: 1,
     marginVertical: 1
+  },
+  spin: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
 

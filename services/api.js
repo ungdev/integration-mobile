@@ -118,6 +118,22 @@ export const fetchUser = async () => {
   return res.data
 }
 
+export const fetchFactions = async () => {
+  const token = await getToken()
+  const res = await api.get('factions', {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return res.data
+}
+
+export const fetchPoints = async () => {
+  const token = await getToken()
+  const res = await api.get('points', {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return res.data
+}
+
 export const setExpoPushToken = async pushToken => {
   const token = await getToken()
   const res = await api.post(

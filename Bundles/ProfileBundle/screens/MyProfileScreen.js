@@ -12,7 +12,7 @@ import ProfileElement from '../components/ProfileElement'
 
 class MyProfile extends React.Component {
   static navigationOptions = ({ navigation }) =>
-    DefaultTopbar(navigation, 'Mon Profile')
+    DefaultTopbar(navigation, 'Mon Profil')
 
   render() {
     const { user } = this.props.screenProps
