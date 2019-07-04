@@ -1,7 +1,7 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
-const Topbar = (navigation, title) => {
+const Topbar = (navigation, title, back = false) => {
   return {
     title,
     headerStyle: {
@@ -10,7 +10,13 @@ const Topbar = (navigation, title) => {
     headerTitleStyle: {
       color: 'white'
     },
-    headerLeft: (
+    headerLeft: back ? (
+      <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.pop()}>
+        <Text style={{ marginLeft: 8, color: 'white', fontSize: 20 }}>
+          Retour
+        </Text>
+      </TouchableOpacity>
+    ) : (
       <TouchableOpacity onPress={() => navigation.navigate('Main')}>
         <Icon
           name='angle-left'

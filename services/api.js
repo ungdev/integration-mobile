@@ -134,6 +134,14 @@ export const fetchPoints = async () => {
   return res.data
 }
 
+export const fetchEvents = async (id) => {
+  const token = await getToken()
+  const res = await api.get(`event?student=${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return res.data
+}
+
 export const setExpoPushToken = async pushToken => {
   const token = await getToken()
   const res = await api.post(

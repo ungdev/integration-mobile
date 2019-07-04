@@ -3,11 +3,9 @@ import {
   ScrollView,
   View,
   StyleSheet,
-  Text,
   ActivityIndicator
 } from 'react-native'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
-import { Divider } from 'react-native-elements'
 import { fetchFactions, fetchPoints } from '../../../services/api'
 import ProfileElement from '../../ProfileBundle/components/ProfileElement'
 

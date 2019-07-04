@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   ActivityIndicator,
+  Image,
   View,
   StyleSheet,
   AsyncStorage,
@@ -47,6 +48,9 @@ class MainMenu extends React.Component {
         break
       case 'points':
         this.props.navigation.navigate('Points')
+        break
+      case 'events':
+        this.props.navigation.navigate('Events')
         break
       case 'slack':
         Linking.canOpenURL('slack://open').then(supported => {
@@ -101,25 +105,26 @@ class MainMenu extends React.Component {
     let content = [
       {
         name: 'Mon profil',
-        image: 'user',
+        icon: 'user',
         destination: 'profile'
       },
       {
         name: 'Points',
-        image: 'trophy',
+        icon: 'trophy',
         destination: 'points'
       },
       {
         name: 'Plan',
-        image: 'map'
+        icon: 'map'
       },
       {
         name: 'Gubu',
-        image: 'book'
+        icon: 'book'
       },
       {
         name: 'Événements',
-        image: 'calendar'
+        icon: 'calendar',
+        destination: 'events'
       }
     ]
     //orga
@@ -127,12 +132,12 @@ class MainMenu extends React.Component {
       content.push(
         {
           name: 'Slack',
-          image: 'slack',
+          icon: 'slack',
           destination: 'slack'
         },
         {
           name: 'Listes',
-          image: 'tasks'
+          icon: 'tasks'
         }
       )
     }
@@ -141,7 +146,7 @@ class MainMenu extends React.Component {
     if (user.team) {
       content.push({
         name: 'Mon équipe',
-        image: 'users'
+        icon: 'users'
       })
     }
 
@@ -149,7 +154,7 @@ class MainMenu extends React.Component {
     if (!user.is_newcomer) {
       content.push({
         name: 'Perms',
-        image: 'table'
+        icon: 'table'
       })
     }
 
@@ -158,27 +163,27 @@ class MainMenu extends React.Component {
       content.push(
         {
           name: 'Équipes',
-          image: 'users'
+          icon: 'users'
         },
         {
           name: 'Étudiants',
-          image: 'list-ul'
+          icon: 'list-ul'
         }
       )
     }
 
     content.push(
       {
-        name: 'UNG',
-        image: 'desktop'
+        name: '',
+        image: require('../assets/images/ung.png')
       },
       {
-        name: 'BDE',
-        image: 'star'
+        name: '',
+        image: require('../assets/images/bdeutt.png')
       },
       {
         name: 'Se déconnecter',
-        image: 'sign-out',
+        icon: 'sign-out',
         destination: 'logout'
       }
     )
@@ -197,7 +202,9 @@ class MainMenu extends React.Component {
           <GridButton
             key={key++}
             title={section.name}
-            image={<Icon name={section.image} size={70} color='#333' />}
+            image={section.icon ? <Icon name={section.icon} size={70} color='#333' /> 
+            : 
+            <Image source={section.image} style={styles.image} />}
             onPress={() => this.click(section.destination)}
           />
         )
@@ -249,6 +256,10 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').width / 3 - 6,
     marginHorizontal: 1,
     marginVertical: 1
+  },
+  image: {
+    width: Dimensions.get('window').width / 3 - 20,
+    height: Dimensions.get('window').width / 3 - 20,
   },
   spin: {
     flex: 1,

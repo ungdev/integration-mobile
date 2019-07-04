@@ -6,6 +6,7 @@ import LoginPage from './login/LoginPage'
 import EtuLoginPage from './login/EtuLoginPage'
 import ProfileBundle from '../Bundles/ProfileBundle/Main'
 import PointsBundle from '../Bundles/PointsBundle/Main'
+import EventsBundle from '../Bundles/EventsBundle/Main'
 
 const Navigator = createSwitchNavigator(
   {
@@ -15,7 +16,8 @@ const Navigator = createSwitchNavigator(
     Login: LoginPage,
     EtuLogin: EtuLoginPage,
     Profile: ProfileBundle,
-    Points: PointsBundle
+    Points: PointsBundle,
+    Events: EventsBundle
   },
   {
     initialRouteName: 'Login'
@@ -31,7 +33,7 @@ class AppNavigator extends React.Component {
   }
 
   setUser = user => this.setState({ user })
-  
+
   render() {
     return (
       <Navigator
