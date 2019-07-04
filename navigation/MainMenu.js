@@ -202,9 +202,13 @@ class MainMenu extends React.Component {
           <GridButton
             key={key++}
             title={section.name}
-            image={section.icon ? <Icon name={section.icon} size={70} color='#333' /> 
-            : 
-            <Image source={section.image} style={styles.image} />}
+            image={
+              section.icon ? (
+                <Icon name={section.icon} size={70} color='#333' />
+              ) : (
+                <Image source={section.image} style={styles.image} />
+              )
+            }
             onPress={() => this.click(section.destination)}
           />
         )
@@ -259,7 +263,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: Dimensions.get('window').width / 3 - 20,
-    height: Dimensions.get('window').width / 3 - 20,
+    height: Dimensions.get('window').width / 3 - 20
   },
   spin: {
     flex: 1,
