@@ -20,8 +20,13 @@ import {
 } from '../constants/StorageKey'
 import { fetchUser, getToken } from '../services/api'
 import { registerForExpoPushNotifications } from '../services/expoPushNotifications'
+import DefaultTopbar from '../constants/DefaultTopbar'
+import { createStackNavigator } from 'react-navigation'
 
 class MainMenu extends React.Component {
+  static navigationOptions = ({ navigation }) =>
+    DefaultTopbar(navigation, 'Intégration UTT', null)
+
   constructor(props) {
     super(props)
     this.checkToken()
@@ -60,6 +65,9 @@ class MainMenu extends React.Component {
             Linking.openURL('https://bde-utt.slack.com/')
           }
         })
+        break
+      case 'etu':
+        Linking.openURL('https://etu.utt.fr/')
         break
       case 'logout':
         this.logout()
@@ -103,29 +111,12 @@ class MainMenu extends React.Component {
     }
     let grid = []
     let content = [
-      {
-        name: 'Mon profil',
-        icon: 'user',
-        destination: 'profile'
-      },
-      {
-        name: 'Points',
-        icon: 'trophy',
-        destination: 'points'
-      },
-      {
-        name: 'Plan',
-        icon: 'map'
-      },
-      {
-        name: 'Gubu',
-        icon: 'book'
-      },
-      {
-        name: 'Événements',
-        icon: 'calendar',
-        destination: 'events'
-      }
+      { name: 'Mon profil', icon: 'user', destination: 'profile' },
+      { name: 'Points', icon: 'trophy', destination: 'points' },
+      { name: 'Plan', icon: 'map' },
+      { name: 'Gubu', icon: 'book' },
+      { name: 'Site étudiant', icon: 'graduation-cap', destination: 'etu' },
+      { name: 'Événements', icon: 'calendar', destination: 'events' }
     ]
     //orga
     if (user.orga) {
@@ -227,7 +218,6 @@ class MainMenu extends React.Component {
     })
     return (
       <View style={styles.container}>
-        <Appbar style={styles.bottom} />
         <ScrollView style={styles.grid}>{grid}</ScrollView>
       </View>
     )
@@ -241,19 +231,12 @@ const styles = StyleSheet.create({
   },
   grid: {
     flex: 1,
-    marginTop: 55
+    marginTop: 3
   },
   row: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center'
-  },
-  bottom: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    backgroundColor: '#333'
   },
   empty: {
     width: Dimensions.get('window').width / 3 - 6,
@@ -272,4 +255,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default MainMenu
+export default createStackNavigator({ MainMenu })

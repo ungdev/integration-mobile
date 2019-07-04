@@ -10,7 +10,7 @@ const Topbar = (navigation, title, back = false) => {
     headerTitleStyle: {
       color: 'white'
     },
-    headerLeft: back ? (
+    headerLeft: back !== null && (back ? (
       <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={() => navigation.pop()}>
         <Text style={{ marginLeft: 8, color: 'white', fontSize: 20 }}>
           Retour
@@ -25,7 +25,7 @@ const Topbar = (navigation, title, back = false) => {
           color='#fff'
         />
       </TouchableOpacity>
-    )
+    ))
   }
 }
 export default Topbar
