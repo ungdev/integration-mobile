@@ -1,7 +1,11 @@
 import React from 'react'
 import { WebView } from 'react-native'
 import { AsyncStorage } from 'react-native'
-import { getToken, getEtuUTTLoginUrl, sendAuthorizationCode } from '../../services/api'
+import {
+  getToken,
+  getEtuUTTLoginUrl,
+  sendAuthorizationCode
+} from '../../services/api'
 
 class EtuLoginPage extends React.Component {
   constructor(props) {
@@ -71,7 +75,10 @@ class EtuLoginPage extends React.Component {
         }}
         style={{ marginTop: 20 }}
         onLoadStart={e => {
-          console.log('load', e.nativeEvent.url.split('?'))
+          console.log('load', e.nativeEvent.url)
+          if (e.nativeEvent.url.indexOf('http://etu.utt.fr/user') !== -1) {
+            this.setState({ uri: 'https://etu.utt.fr/user' })
+          }
           if (e.nativeEvent.url.indexOf('localhost:8100/?') !== -1) {
             if (e.nativeEvent.url.indexOf('authentification_canceled') === -1) {
               this.login(e.nativeEvent.url)

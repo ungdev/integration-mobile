@@ -23,16 +23,13 @@ class MyProfile extends React.Component {
         </View>
       )
     }
+    console.log('SEX', user.sex)
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.fullName}>
           {user.first_name} {user.last_name}
         </Text>
-        {user.surname ? (
-          <Text style={styles.surname}>({user.surname})</Text>
-        ) : (
-          <Text />
-        )}
+        {user.surname && <Text style={styles.surname}>({user.surname})</Text>}
         <Divider style={{ width: '90%' }} />
         <ProfileElement
           type='Branche'
@@ -46,19 +43,26 @@ class MyProfile extends React.Component {
         />
         <ProfileElement type='E-mail' value={user.email} icon='envelope' />
         <ProfileElement type='Téléphone' value={user.phone} icon='phone' />
-        <ProfileElement
-          type='Code postal'
-          value={user.postal_code}
-          icon='home'
-        />
-        {user.sex && (
+        {user.sex !== null && (
           <ProfileElement
             type='Sexe'
-            value={user.sex === 'male' ? 'Homme' : 'Femme'}
+            value={user.sex === 0 ? 'Homme' : 'Femme'}
             icon='venus-mars'
           />
         )}
-        <ProfileElement type='Pays' value={user.country} icon='flag' />
+        {user.postal_code > 0 && (
+          <ProfileElement
+            type='Code postal'
+            value={user.postal_code}
+            icon='home'
+          />
+        )}
+        {user.city !== '' && (
+          <ProfileElement type='Ville' value={user.city} icon='building' />
+        )}
+        {user.country !== '' && (
+          <ProfileElement type='Pays' value={user.country} icon='flag' />
+        )}
       </ScrollView>
     )
   }
@@ -66,7 +70,6 @@ class MyProfile extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
     alignItems: 'center',
     backgroundColor: '#fff',
     paddingTop: 20

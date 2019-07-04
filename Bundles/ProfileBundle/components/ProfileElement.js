@@ -5,17 +5,13 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 const ProfileElement = props => {
   if (props.value === null) return null
+  console.log(props.type, props.value)
   return (
     <View style={styles.container}>
       <Icon name={props.icon} size={50} color='#333' />
       <View style={styles.text}>
         <View style={styles.typeContainer}>
           <Text style={styles.type}>{props.type}</Text>
-          {props.private && (
-            <Tooltip popover={<Text>Information privée</Text>}>
-              <Icon name='lock' size={20} color='#000' />
-            </Tooltip>
-          )}
         </View>
         {typeof props.value !== Object ? (
           <Text style={styles.value}>{props.value}</Text>

@@ -118,7 +118,6 @@ class MainMenu extends React.Component {
       { name: 'Points', icon: 'trophy', destination: 'points' },
       { name: 'Plan', icon: 'map' },
       { name: 'Gubu', icon: 'book' },
-      { name: 'Site étudiant', icon: 'graduation-cap', destination: 'etu' },
       { name: 'Événements', icon: 'calendar', destination: 'events' }
     ]
     //orga
@@ -136,7 +135,10 @@ class MainMenu extends React.Component {
 
     // tous sauf nouveau
     if (!user.is_newcomer) {
-      content.push({ name: 'Perms', icon: 'table' })
+      content.push(
+        { name: 'Perms', icon: 'table' },
+        { name: 'Site étudiant', icon: 'graduation-cap', destination: 'etu' }
+      )
     }
 
     //admin
