@@ -123,7 +123,11 @@ class MainMenu extends React.Component {
     //orga
     if (user.orga) {
       content.push(
-        { name: 'Slack', icon: 'slack', destination: 'slack' },
+        {
+          name: 'Slack',
+          image: require('../assets/images/slack.png'),
+          destination: 'slack'
+        },
         { name: 'Listes', icon: 'tasks' }
       )
     }
@@ -182,7 +186,10 @@ class MainMenu extends React.Component {
               section.icon ? (
                 <Icon name={section.icon} size={70} color='#333' />
               ) : (
-                <Image source={section.image} style={styles.image} />
+                <Image
+                  source={section.image}
+                  style={section.name ? styles.shortImage : styles.image}
+                />
               )
             }
             onPress={() => this.click(section.destination)}
@@ -232,6 +239,10 @@ const styles = StyleSheet.create({
   image: {
     width: Dimensions.get('window').width / 3 - 20,
     height: Dimensions.get('window').width / 3 - 20
+  },
+  shortImage: {
+    width: Dimensions.get('window').width / 4 - 25,
+    height: Dimensions.get('window').width / 4 - 25
   },
   spin: {
     flex: 1,
