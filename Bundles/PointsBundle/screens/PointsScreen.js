@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  ActivityIndicator
-} from 'react-native'
+import { ScrollView, View, StyleSheet, ActivityIndicator } from 'react-native'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import { fetchFactions, fetchPoints } from '../../../services/api'
 import ProfileElement from '../../ProfileBundle/components/ProfileElement'
@@ -25,9 +20,13 @@ class Points extends React.Component {
     this.fetchFactionsAndPoints()
   }
   fetchFactionsAndPoints = async () => {
-    const factions = await fetchFactions()
-    const points = await fetchPoints()
-    this.setState({ factions, points })
+    try {
+      const factions = await fetchFactions()
+      const points = await fetchPoints()
+      this.setState({ factions, points })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   render() {

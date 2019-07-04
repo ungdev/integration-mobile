@@ -19,8 +19,12 @@ class Events extends React.Component {
     this.fetchEvents()
   }
   fetchEvents = async () => {
-    const events = await fetchEvents(this.props.screenProps.user.id)
-    this.setState({ events })
+    try {
+      const events = await fetchEvents(this.props.screenProps.user.id)
+      this.setState({ events })
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   render() {
