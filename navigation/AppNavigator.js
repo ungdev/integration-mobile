@@ -7,6 +7,7 @@ import EtuLoginPage from './login/EtuLoginPage'
 import ProfileBundle from '../Bundles/ProfileBundle/Main'
 import PointsBundle from '../Bundles/PointsBundle/Main'
 import EventsBundle from '../Bundles/EventsBundle/Main'
+import UNGBundle from '../Bundles/UNGBundle/Main'
 
 const Navigator = createSwitchNavigator(
   {
@@ -17,7 +18,8 @@ const Navigator = createSwitchNavigator(
     EtuLogin: EtuLoginPage,
     Profile: ProfileBundle,
     Points: PointsBundle,
-    Events: EventsBundle
+    Events: EventsBundle,
+    UNG: UNGBundle
   },
   {
     initialRouteName: 'Login'

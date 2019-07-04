@@ -57,6 +57,9 @@ class MainMenu extends React.Component {
       case 'events':
         this.props.navigation.navigate('Events')
         break
+      case 'ung':
+        this.props.navigation.navigate('UNG')
+        break
       case 'slack':
         Linking.canOpenURL('slack://open').then(supported => {
           if (supported) {
@@ -121,52 +124,34 @@ class MainMenu extends React.Component {
     //orga
     if (user.orga) {
       content.push(
-        {
-          name: 'Slack',
-          icon: 'slack',
-          destination: 'slack'
-        },
-        {
-          name: 'Listes',
-          icon: 'tasks'
-        }
+        { name: 'Slack', icon: 'slack', destination: 'slack' },
+        { name: 'Listes', icon: 'tasks' }
       )
     }
 
     //ce ou nouveau
     if (user.team) {
-      content.push({
-        name: 'Mon équipe',
-        icon: 'users'
-      })
+      content.push({ name: 'Mon équipe', icon: 'users' })
     }
 
     // tous sauf nouveau
     if (!user.is_newcomer) {
-      content.push({
-        name: 'Perms',
-        icon: 'table'
-      })
+      content.push({ name: 'Perms', icon: 'table' })
     }
 
     //admin
     if (user.admin) {
       content.push(
-        {
-          name: 'Équipes',
-          icon: 'users'
-        },
-        {
-          name: 'Étudiants',
-          icon: 'list-ul'
-        }
+        { name: 'Équipes', icon: 'users' },
+        { name: 'Étudiants', icon: 'list-ul' }
       )
     }
 
     content.push(
       {
         name: '',
-        image: require('../assets/images/ung.png')
+        image: require('../assets/images/ung.png'),
+        destination: 'ung'
       },
       {
         name: '',
@@ -178,10 +163,8 @@ class MainMenu extends React.Component {
         destination: 'logout'
       }
     )
-    let i,
-      j,
-      gridContent = []
-    for (i = 0; i < content.length; i += 3) {
+    let gridContent = []
+    for (let i = 0; i < content.length; i += 3) {
       gridContent.push(content.slice(i, i + 3))
     }
 
