@@ -18,7 +18,7 @@ class UNG extends React.Component {
   onClickListener = id => {
     switch (id) {
       case 'events':
-        this.props.navigation.navigate('Events')
+        this.props.navigation.navigate('UNGEvents')
         break
       case 'projects':
         this.props.navigation.navigate('Projects')
@@ -39,7 +39,7 @@ class UNG extends React.Component {
         </Text>
         <Text style={styles.p}>
           Nous fournissons des services informatiques aux étudiants et
-          assocations. Nous avons notre propre salle rempli de serveurs bien
+          assocations. Nous avons notre propre salle remplie de serveurs bien
           badass, et on développe pas mal d'outils comme des sites webs que tu
           utiliseras quotidiennement. Par exemple le site étudiant, le site de
           l'intégration ou même cette application que tu es en train d'utiliser
