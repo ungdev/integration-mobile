@@ -134,7 +134,7 @@ export const fetchPoints = async () => {
   return res.data
 }
 
-export const fetchEvents = async (id) => {
+export const fetchEvents = async id => {
   const token = await getToken()
   const res = await api.get(`event?student=${id}`, {
     headers: { Authorization: `Bearer ${token}` }
@@ -143,13 +143,35 @@ export const fetchEvents = async (id) => {
 }
 
 export const setExpoPushToken = async pushToken => {
-  const token = await getToken()
-  const res = await api.post(
-    `private/user/push-token`,
-    { token: pushToken },
-    {
-      headers: { Authorization: `Bearer ${token}` }
-    }
-  )
-  return res
+  try {
+    const token = await getToken()
+    const res = await api.post(
+      `user/push-token`,
+      { token: pushToken },
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    )
+    return res
+  } catch (e) {
+    console.log(e)
+  }
+  return null
+}
+
+export const sendNotification = async (targets, title, message) => {
+  try {
+    const token = await getToken()
+    const res = await api.post(
+      `notification`,
+      { targets, title, message },
+      {
+        headers: { Authorization: `Bearer ${token}` }
+      }
+    )
+    return res
+  } catch (e) {
+    console.log(e)
+  }
+  return null
 }

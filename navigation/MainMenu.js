@@ -8,7 +8,6 @@ import {
   Dimensions,
   Linking
 } from 'react-native'
-import { Appbar } from 'react-native-paper'
 import GridButton from '../components/Menu/GridButton'
 import { ScrollView } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -59,6 +58,9 @@ class MainMenu extends React.Component {
         break
       case 'ung':
         this.props.navigation.navigate('UNG')
+        break
+      case 'notifs':
+        this.props.navigation.navigate('AdminNotifications')
         break
       case 'slack':
         Linking.canOpenURL('slack://open').then(supported => {
@@ -149,7 +151,8 @@ class MainMenu extends React.Component {
     if (user.admin) {
       content.push(
         { name: 'Équipes', icon: 'users' },
-        { name: 'Étudiants', icon: 'list-ul' }
+        { name: 'Étudiants', icon: 'list-ul' },
+        { name: 'Notifications', icon: 'bullhorn', destination: 'notifs' }
       )
     }
 

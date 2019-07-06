@@ -8,6 +8,7 @@ import ProfileBundle from '../Bundles/ProfileBundle/Main'
 import PointsBundle from '../Bundles/PointsBundle/Main'
 import EventsBundle from '../Bundles/EventsBundle/Main'
 import UNGBundle from '../Bundles/UNGBundle/Main'
+import AdminNotificationsBundle from '../Bundles/AdminNotificationsBundle/Main'
 
 const Navigator = createSwitchNavigator(
   {
@@ -19,7 +20,8 @@ const Navigator = createSwitchNavigator(
     Profile: ProfileBundle,
     Points: PointsBundle,
     Events: EventsBundle,
-    UNG: UNGBundle
+    UNG: UNGBundle,
+    AdminNotifications: AdminNotificationsBundle
   },
   {
     initialRouteName: 'Login'

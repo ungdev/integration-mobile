@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  Dimensions,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native'
+import { Dimensions, Image, ScrollView, StyleSheet, Text } from 'react-native'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import ung from '../../../assets/images/ung.png'
 
@@ -19,9 +11,7 @@ class Projects extends React.Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Image source={ung} />
-        <Text style={styles.p}>
-          Projets
-        </Text>
+        <Text style={styles.p}>Projets</Text>
       </ScrollView>
     )
   }
