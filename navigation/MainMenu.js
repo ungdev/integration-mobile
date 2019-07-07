@@ -118,8 +118,8 @@ class MainMenu extends React.Component {
     let content = [
       { name: 'Mon profil', icon: 'user', destination: 'profile' },
       { name: 'Points', icon: 'trophy', destination: 'points' },
-      { name: 'Plan', icon: 'map' },
-      { name: 'Gubu', icon: 'book' },
+      //{ name: 'Plan', icon: 'map' }, // TODO
+      //{ name: 'Gubu', icon: 'book' }, // TODO
       { name: 'Événements', icon: 'calendar', destination: 'events' }
     ]
     //orga
@@ -130,19 +130,19 @@ class MainMenu extends React.Component {
           image: require('../assets/images/slack.png'),
           destination: 'slack'
         },
-        { name: 'Listes', icon: 'tasks' }
+        //{ name: 'Listes', icon: 'tasks' } // TODO
       )
     }
 
     //ce ou nouveau
     if (user.team) {
-      content.push({ name: 'Mon équipe', icon: 'users' })
+      // content.push({ name: 'Mon équipe', icon: 'users' }) // TODO
     }
 
     // tous sauf nouveau
     if (!user.is_newcomer) {
       content.push(
-        { name: 'Perms', icon: 'table' },
+        // { name: 'Perms', icon: 'table' }, // TODO
         { name: 'Site étudiant', icon: 'graduation-cap', destination: 'etu' }
       )
     }
@@ -150,8 +150,8 @@ class MainMenu extends React.Component {
     //admin
     if (user.admin) {
       content.push(
-        { name: 'Équipes', icon: 'users' },
-        { name: 'Étudiants', icon: 'list-ul' },
+        // { name: 'Équipes', icon: 'users' }, // TODO
+        // { name: 'Étudiants', icon: 'list-ul' }, // TODO
         { name: 'Notifications', icon: 'bullhorn', destination: 'notifs' }
       )
     }
@@ -162,10 +162,10 @@ class MainMenu extends React.Component {
         image: require('../assets/images/ung.png'),
         destination: 'ung'
       },
-      {
+      /*{
         name: '',
-        image: require('../assets/images/bdeutt.png')
-      },
+        image: require('../assets/images/bdeutt.png') // TODO
+      },*/
       {
         name: 'Se déconnecter',
         icon: 'sign-out',
