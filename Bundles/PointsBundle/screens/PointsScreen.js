@@ -6,7 +6,7 @@ import ProfileElement from '../../ProfileBundle/components/ProfileElement'
 
 class Points extends React.Component {
   static navigationOptions = ({ navigation }) =>
-    DefaultTopbar(navigation, 'Résultats des Fations')
+    DefaultTopbar(navigation, 'Résultats des Factions')
 
   constructor(props) {
     super(props)
