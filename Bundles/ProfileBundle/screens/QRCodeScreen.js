@@ -9,7 +9,7 @@ class QRCodeScreen extends React.Component {
         <QRCode
           value={this.props.navigation.getParam('code')}
           size={300}
-          bgColor='blue'
+          bgColor='#00b5ec'
           fgColor='white'
         />
       </View>
