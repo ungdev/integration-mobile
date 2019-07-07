@@ -5,12 +5,12 @@ import {
   Image,
   Text,
   TextInput,
-  TouchableHighlight,
   ActivityIndicator
 } from 'react-native'
 import { getToken } from '../../services/api'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { newcomerLogin } from '../../services/api'
+import Button from '../../components/Button'
 
 class LoginPage extends React.Component {
   componentDidMount() {
@@ -90,21 +90,17 @@ class LoginPage extends React.Component {
           />
         </View>
 
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
+        <Button
           onPress={() => this.onClickListener('loginnew')}
-        >
-          <Text style={styles.loginText}>Connexion</Text>
-        </TouchableHighlight>
+          title='Connexion'
+        />
 
         <Text style={styles.ancientText}>Pour les anciens :</Text>
 
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.loginButton]}
+        <Button
           onPress={() => this.onClickListener('loginetu')}
-        >
-          <Text style={styles.loginText}>Connexion avec le site étudiant</Text>
-        </TouchableHighlight>
+          title='Connexion avec le site étudiant'
+        />
       </View>
     )
   }
@@ -116,11 +112,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#DCDCDC'
-  },
-  buttons: {
-    flex: 8,
-    justifyContent: 'center',
-    alignContent: 'center'
   },
   inputContainer: {
     borderBottomColor: '#F5FCFF',
@@ -144,21 +135,6 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 15,
     justifyContent: 'center'
-  },
-  buttonContainer: {
-    height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    width: 250,
-    borderRadius: 30
-  },
-  loginButton: {
-    backgroundColor: '#00b5ec'
-  },
-  loginText: {
-    color: 'white'
   },
   ancientText: {
     color: 'black',

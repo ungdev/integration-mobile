@@ -73,30 +73,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width * 0.95,
     padding: 1
   },
-  buttonContainer: {
-    height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 20,
-    width: 250,
-    borderRadius: 30
-  },
-  buttonContent: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   link: {
     color: '#00b5ec'
-  },
-  button: {
-    backgroundColor: '#00b5ec'
-  },
-  buttonText: {
-    color: 'white',
-    marginLeft: 20
   }
 })
 

@@ -5,12 +5,12 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
   View
 } from 'react-native'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import { sendNotification } from '../../../services/api'
 import Checkbox from '../../../components/Checkbox'
+import Button from '../../../components/Button'
 
 class UNG extends React.Component {
   static navigationOptions = ({ navigation }) =>
@@ -120,12 +120,7 @@ class UNG extends React.Component {
           />
         </View>
 
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.button]}
-          onPress={this.sendNotification}
-        >
-          <Text style={styles.buttonText}>Envoyer</Text>
-        </TouchableHighlight>
+        <Button onPress={this.sendNotification} title='Envoyer' />
       </ScrollView>
     )
   }
@@ -141,19 +136,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width * 0.95,
     padding: 1,
     marginBottom: 20
-  },
-  buttonContainer: {
-    height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 200,
-    marginTop: 20,
-    width: 250,
-    borderRadius: 30
-  },
-  button: {
-    backgroundColor: '#00b5ec'
   },
   inputContainer: {
     borderBottomColor: '#FFFFFF',
@@ -172,9 +154,6 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     borderBottomColor: '#FFFFFF',
     flex: 1
-  },
-  buttonText: {
-    color: 'white'
   }
 })
 

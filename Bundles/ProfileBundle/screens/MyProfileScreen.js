@@ -9,6 +9,8 @@ import {
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import { Divider } from 'react-native-elements'
 import ProfileElement from '../components/ProfileElement'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import Button from '../../../components/Button'
 
 class MyProfile extends React.Component {
   static navigationOptions = ({ navigation }) =>
@@ -23,13 +25,19 @@ class MyProfile extends React.Component {
         </View>
       )
     }
-    console.log('SEX', user.sex)
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.fullName}>
           {user.first_name} {user.last_name}
         </Text>
         {user.surname && <Text style={styles.surname}>({user.surname})</Text>}
+        <Button
+          onPress={() =>
+            this.props.navigation.navigate('QRCode', { code: user.qrcode })
+          }
+          title='Afficher mon QR Code'
+          icon={<Icon name='qrcode' size={30} color='white' />}
+        />
         <Divider style={{ width: '90%' }} />
         <ProfileElement
           type='Branche'

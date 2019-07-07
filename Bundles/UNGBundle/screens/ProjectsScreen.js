@@ -5,14 +5,13 @@ import {
   Linking,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableHighlight,
-  View
+  Text
 } from 'react-native'
 import { Card } from 'react-native-elements'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import ung from '../../../assets/images/ung.png'
+import Button from '../../../components/Button'
 
 class Projects extends React.Component {
   static navigationOptions = ({ navigation }) =>
@@ -26,15 +25,13 @@ class Projects extends React.Component {
           Tous les projets de l'UNG sont disponible sur notre github, tu peux
           les consulter ici :
         </Text>
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.button]}
+        <Button
           onPress={() => Linking.openURL('https://github.com/ungdev')}
-        >
-          <View style={styles.buttonContent}>
-            <Icon name='github' size={30} color='white' style={styles.icon} />
-            <Text style={styles.buttonText}>Aller sur le github</Text>
-          </View>
-        </TouchableHighlight>
+          title='Aller sur le github'
+          icon={
+            <Icon name='github' size={30} color='white' />
+          }
+        />
 
         <Text style={styles.p}>
           Ci-dessous une liste incomplète des projets sur lesquelles nous
@@ -159,30 +156,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width * 0.95,
     padding: 1
   },
-  buttonContainer: {
-    height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 20,
-    width: 250,
-    borderRadius: 30
-  },
-  buttonContent: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   link: {
     color: '#00b5ec'
-  },
-  button: {
-    backgroundColor: '#00b5ec'
-  },
-  buttonText: {
-    color: 'white',
-    marginLeft: 20
   }
 })
 

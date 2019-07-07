@@ -5,11 +5,11 @@ import {
   Linking,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableHighlight
+  Text
 } from 'react-native'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import ung from '../../../assets/images/ung.png'
+import Button from '../../../components/Button'
 
 class UNG extends React.Component {
   static navigationOptions = ({ navigation }) =>
@@ -45,33 +45,27 @@ class UNG extends React.Component {
           l'intégration ou même cette application que tu es en train d'utiliser
           !
         </Text>
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.button]}
+        <Button
           onPress={() => this.onClickListener('projects')}
-        >
-          <Text style={styles.buttonText}>Voir les projets</Text>
-        </TouchableHighlight>
+          title='Voir les projets'
+        />
         <Text style={styles.p}>
           L'UNG c'est aussi une grosse part d'événementiel, avec notamment l'UTT
           Arena, une LAN (compétition de jeux vidéo) de plus de 450 joueurs !
         </Text>
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.button]}
+        <Button
           onPress={() => this.onClickListener('events')}
-        >
-          <Text style={styles.buttonText}>Voir les événements</Text>
-        </TouchableHighlight>
+          title='Voir les événements'
+        />
         <Text style={styles.p}>
           Voilà, si tu as des questions ou si tu souhaites rejoindre
           l'association, n'hésites pas à venir nous voir, ou même à nous
           contacter directement avec ce bouton :
         </Text>
-        <TouchableHighlight
-          style={[styles.buttonContainer, styles.button]}
+        <Button
           onPress={() => this.onClickListener('contact')}
-        >
-          <Text style={styles.buttonText}>Nous contacter</Text>
-        </TouchableHighlight>
+          title='Nous contacter'
+        />
         <Text style={styles.p}>
           Retrouve toutes ces informations sur notre site internet,
           <Text
@@ -97,24 +91,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width * 0.95,
     padding: 1
   },
-  buttonContainer: {
-    height: 45,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 20,
-    width: 250,
-    borderRadius: 30
-  },
-  button: {
-    backgroundColor: '#00b5ec'
-  },
   link: {
     color: '#00b5ec'
-  },
-  buttonText: {
-    color: 'white'
   }
 })
 
