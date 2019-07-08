@@ -48,7 +48,6 @@ class EtuLoginPage extends React.Component {
       this.props.screenProps.setUser(user)
     } catch (e) {
       console.log(e.response)
-      this.logout()
     }
   }
 

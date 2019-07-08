@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { AsyncStorage } from 'react-native'
+import { Constants } from 'expo'
 import config from '../config'
 import moment from 'moment'
 import {
@@ -147,14 +148,19 @@ export const setExpoPushToken = async pushToken => {
     const token = await getToken()
     const res = await api.post(
       `user/push-token`,
-      { token: pushToken },
+      {
+        push_token: pushToken,
+        device: Constants.deviceName,
+        device_uid: Constants.deviceId
+      },
       {
         headers: { Authorization: `Bearer ${token}` }
       }
     )
     return res
   } catch (e) {
-    console.log(e)
+    if (e && e.response) console.log(e.response)
+    else console.log(e)
   }
   return null
 }
