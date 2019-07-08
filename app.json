@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Intégration UTT Mobile",
+    "name": "Intégration UTT",
     "slug": "integrationmobile",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -24,10 +24,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "fr.utt.ung.integration"
+      "bundleIdentifier": "fr.uttnetgroup.integration"
     },
     "android": {
-      "package": "fr.utt.ung.integration"
+      "package": "fr.utt.ung.integration",
+      "versionCode": 300000
     }
   }
 }

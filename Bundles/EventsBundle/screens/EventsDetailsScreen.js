@@ -16,8 +16,8 @@ class EventsDetails extends React.Component {
         {user.admin && <Text>Catégories de l'événement :</Text>}
         {user.admin && (
           <View style={styles.tags}>
-            {JSON.parse(event.categories).map(c => (
-              <Tag>{c}</Tag>
+            {JSON.parse(event.categories).map((c, index) => (
+              <Tag key={index}>{c}</Tag>
             ))}
           </View>
         )}
