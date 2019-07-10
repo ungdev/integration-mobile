@@ -13,8 +13,8 @@ class EventsDetails extends React.Component {
     const { user } = this.props.screenProps
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        {user.admin && <Text>Catégories de l'événement :</Text>}
-        {user.admin && (
+        {user.admin > 0 && <Text>Catégories de l'événement :</Text>}
+        {user.admin > 0 && (
           <View style={styles.tags}>
             {JSON.parse(event.categories).map((c, index) => (
               <Tag key={index}>{c}</Tag>

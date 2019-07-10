@@ -15,6 +15,10 @@ import Button from '../../components/Button'
 class LoginPage extends React.Component {
   componentDidMount() {
     this.autoLogin()
+    this.mount = true
+  }
+  componentWillUnmount() {
+    this.mount = false
   }
   constructor(props) {
     super(props)
@@ -48,7 +52,7 @@ class LoginPage extends React.Component {
     } catch (e) {
       console.log(e)
     }
-    this.setState({ fetch: false })
+    if (this.mount) this.setState({ fetch: false })
   }
 
   login = () => this.props.navigation.navigate('EtuLogin')

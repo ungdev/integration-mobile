@@ -1,5 +1,11 @@
 import React from 'react'
-import { ScrollView, View, StyleSheet, ActivityIndicator } from 'react-native'
+import {
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  ActivityIndicator
+} from 'react-native'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import { fetchFactions, fetchPoints } from '../../../services/api'
 import ProfileElement from '../../ProfileBundle/components/ProfileElement'
@@ -25,7 +31,11 @@ class Points extends React.Component {
       const points = await fetchPoints()
       this.setState({ factions, points })
     } catch (e) {
-      console.log(e)
+      console.log(e.response || e)
+      let { factions, points } = this.state
+      if (!factions) factions = []
+      if (!points) points = []
+      this.setState({ factions, points })
     }
   }
 
@@ -49,6 +59,9 @@ class Points extends React.Component {
             icon='group'
           />
         ))}
+        {factions.length === 0 && (
+          <Text>Problème de connexion au serveur, réessayez plus tard.</Text>
+        )}
       </ScrollView>
     )
   }

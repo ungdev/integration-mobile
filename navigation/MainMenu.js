@@ -84,9 +84,9 @@ class MainMenu extends React.Component {
 
   logout = async () => {
     try {
-      await AsyncStorage.setItem(ACCESS_TOKEN_EXPIRATION_KEY, '')
-      await AsyncStorage.setItem(ACCESS_TOKEN_KEY, '')
-      await AsyncStorage.setItem(REFRESH_TOKEN_KEY, '')
+      await AsyncStorage.removeItem(ACCESS_TOKEN_EXPIRATION_KEY)
+      await AsyncStorage.removeItem(ACCESS_TOKEN_KEY)
+      await AsyncStorage.removeItem(REFRESH_TOKEN_KEY)
       this.props.navigation.navigate('Login')
     } catch (e) {
       console.log(e)
@@ -129,7 +129,7 @@ class MainMenu extends React.Component {
           name: 'Slack',
           image: require('../assets/images/slack.png'),
           destination: 'slack'
-        },
+        }
         //{ name: 'Listes', icon: 'tasks' } // TODO
       )
     }

@@ -1,5 +1,11 @@
 import React from 'react'
-import { ScrollView, View, StyleSheet, ActivityIndicator } from 'react-native'
+import {
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  ActivityIndicator
+} from 'react-native'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import { fetchEvents } from '../../../services/api'
 import EventItem from '../components/EventItem'
@@ -23,7 +29,10 @@ class Events extends React.Component {
       const events = await fetchEvents(this.props.screenProps.user.id)
       this.setState({ events })
     } catch (e) {
-      console.log(e)
+      console.log(e.response || e)
+      let { events } = this.state
+      if (!events) events = []
+      this.setState({ events })
     }
   }
 
@@ -36,7 +45,6 @@ class Events extends React.Component {
         </View>
       )
     }
-    console.log(events)
     return (
       <ScrollView contentContainerStyle={styles.container}>
         {events.map(event => (
@@ -48,6 +56,7 @@ class Events extends React.Component {
             }
           />
         ))}
+        {events.length === 0 && <Text>Aucun événement à afficher.</Text>}
       </ScrollView>
     )
   }

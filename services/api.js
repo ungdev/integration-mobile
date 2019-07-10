@@ -8,6 +8,7 @@ import {
   REFRESH_TOKEN_KEY,
   ACCESS_TOKEN_EXPIRATION_KEY
 } from '../constants/StorageKey'
+import { Alert } from 'react-native'
 
 const api = axios.create({
   baseURL: config.inte_url
@@ -17,7 +18,6 @@ export const getToken = async () => {
   const expiration_date = await AsyncStorage.getItem(
     ACCESS_TOKEN_EXPIRATION_KEY
   )
-
   if (
     expiration_date !== null &&
     moment().isBefore(parseInt(expiration_date))
@@ -32,7 +32,7 @@ export const getToken = async () => {
 export const refreshAccessToken = async () => {
   try {
     const refresh_token = await AsyncStorage.getItem(REFRESH_TOKEN_KEY)
-    if (refresh_token === '') return null
+    if (!refresh_token || refresh_token === '') return null
     const res = await api.post(`oauth/token`, {
       grant_type: 'refresh_token',
       client_id: config.inte_client_id,
@@ -42,14 +42,14 @@ export const refreshAccessToken = async () => {
     })
     await AsyncStorage.setItem(ACCESS_TOKEN_KEY, res.data.access_token)
     await AsyncStorage.setItem(REFRESH_TOKEN_KEY, res.data.refresh_token)
-    let expires_in = res.data.expires_in * 1000
-    await AsyncStorage.setItem(
-      ACCESS_TOKEN_EXPIRATION_KEY,
-      expires_in.toString(10)
-    )
+    let expires_at = moment()
+      .add(res.data.expires_in, 'seconds')
+      .format('x')
+    await AsyncStorage.setItem(ACCESS_TOKEN_EXPIRATION_KEY, expires_at)
     return res.data.access_token
   } catch (e) {
-    console.log(e)
+    if (e && e.response) console.log(e.response)
+    else console.log(e)
     throw 'NO_TOKEN'
   }
 }
@@ -66,15 +66,26 @@ export const newcomerLogin = async (login, password) => {
     })
     await AsyncStorage.setItem(ACCESS_TOKEN_KEY, res.data.access_token)
     await AsyncStorage.setItem(REFRESH_TOKEN_KEY, res.data.refresh_token)
-    let expires_in = res.data.expires_in * 1000
-    await AsyncStorage.setItem(
-      ACCESS_TOKEN_EXPIRATION_KEY,
-      expires_in.toString(10)
-    )
+    let expires_at = moment()
+      .add(res.data.expires_in, 'seconds')
+      .format('x')
+    await AsyncStorage.setItem(ACCESS_TOKEN_EXPIRATION_KEY, expires_at)
     return res.data.access_token
   } catch (e) {
     //todo check if e.response.data.error == "invalid_credentials" and print error
-    if (e && e.response) console.log(e.response)
+    if (
+      e &&
+      e.response &&
+      e.response.data &&
+      e.response.data.error &&
+      e.response.data.error === 'invalid_credentials'
+    ) {
+      Alert.alert(
+        "Erreur lors de l'identification",
+        "L'identifiant ou le mot de passe fournit sont incorrects",
+        [{ text: 'Ok' }]
+      )
+    } else if (e && e.response) console.log(e.response)
     else console.log(e)
   }
   return null
@@ -96,7 +107,6 @@ export const sendAuthorizationCode = async authorization_code => {
     const res = await api.post(`oauth/etuutt/callback`, {
       authorization_code
     })
-    console.log('RESULT', res.data)
     await AsyncStorage.setItem(ACCESS_TOKEN_KEY, res.data.access_token)
     await AsyncStorage.setItem(REFRESH_TOKEN_KEY, '')
     await AsyncStorage.setItem(
@@ -114,6 +124,21 @@ export const sendAuthorizationCode = async authorization_code => {
 export const fetchUser = async () => {
   const token = await getToken()
   const res = await api.get('student/0', {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return res.data
+}
+
+export const fetchPerms = async () => {
+  const token = await getToken()
+  const res = await api.get('perms', {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return res.data
+}
+export const fetchUserPerms = async () => {
+  const token = await getToken()
+  const res = await api.get('user/perms', {
     headers: { Authorization: `Bearer ${token}` }
   })
   return res.data
