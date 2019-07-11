@@ -11,33 +11,48 @@ import { Divider } from 'react-native-elements'
 import ProfileElement from '../components/ProfileElement'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Button from '../../../components/Button'
+import SocialButton from '../../../components/SocialButton'
 
 class MyProfile extends React.Component {
-  static navigationOptions = ({ navigation }) =>
-    DefaultTopbar(navigation, 'Mon Profil')
+  static navigationOptions = ({ navigation }) => {
+    const user = navigation.getParam('user')
+    return DefaultTopbar(
+      navigation,
+      user ? user.first_name + ' ' + user.last_name : 'Mon Profil',
+      user ? true : false
+    )
+  }
 
   render() {
-    const { user } = this.props.screenProps
-    if (!user) {
+    let user = this.props.navigation.getParam('user')
+    const thisuser = this.props.screenProps.user
+    if (!user) user = thisuser
+    if (!thisuser) {
       return (
         <View style={styles.spin}>
           <ActivityIndicator size='large' color='#4098ff' />
         </View>
       )
     }
+    const privateInformation = user === thisuser || thisuser.admin > 0
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.fullName}>
           {user.first_name} {user.last_name}
         </Text>
         {user.surname && <Text style={styles.surname}>({user.surname})</Text>}
-        <Button
-          onPress={() =>
-            this.props.navigation.navigate('QRCode', { code: user.qrcode })
-          }
-          title='Afficher mon QR Code'
-          icon={<Icon name='qrcode' size={30} color='white' />}
-        />
+        <View style={styles.social}>
+          <SocialButton type='facebook' link={user.facebook} />
+        </View>
+        {privateInformation && (
+          <Button
+            onPress={() =>
+              this.props.navigation.navigate('QRCode', { code: user.qrcode })
+            }
+            title='Afficher mon QR Code'
+            icon={<Icon name='qrcode' size={30} color='white' />}
+          />
+        )}
         <Divider style={{ width: '90%' }} />
         <ProfileElement
           type='Branche'
@@ -50,7 +65,9 @@ class MyProfile extends React.Component {
           icon='graduation-cap'
         />
         <ProfileElement type='E-mail' value={user.email} icon='envelope' />
-        <ProfileElement type='Téléphone' value={user.phone} icon='phone' />
+        {privateInformation && (
+          <ProfileElement type='Téléphone' value={user.phone} icon='phone' />
+        )}
         {user.sex !== null && (
           <ProfileElement
             type='Sexe'
@@ -58,17 +75,17 @@ class MyProfile extends React.Component {
             icon='venus-mars'
           />
         )}
-        {user.postal_code > 0 && (
+        {user.postal_code > 0 && privateInformation && (
           <ProfileElement
             type='Code postal'
             value={user.postal_code}
             icon='home'
           />
         )}
-        {user.city !== '' && (
+        {user.city !== '' && privateInformation && (
           <ProfileElement type='Ville' value={user.city} icon='building' />
         )}
-        {user.country !== '' && (
+        {user.country !== '' && privateInformation && (
           <ProfileElement type='Pays' value={user.country} icon='flag' />
         )}
       </ScrollView>

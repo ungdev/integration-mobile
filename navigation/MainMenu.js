@@ -74,6 +74,9 @@ class MainMenu extends React.Component {
           }
         })
         break
+      case 'team':
+        this.props.navigation.navigate('Team')
+        break
       case 'etu':
         Linking.openURL('https://etu.utt.fr/')
         break
@@ -139,7 +142,7 @@ class MainMenu extends React.Component {
 
     //ce ou nouveau
     if (user.team) {
-      // content.push({ name: 'Mon équipe', icon: 'users' }) // TODO
+      content.push({ name: 'Mon équipe', icon: 'users', destination: 'team' })
     }
 
     // tous sauf nouveau

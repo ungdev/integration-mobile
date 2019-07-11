@@ -31,12 +31,16 @@ class UNG extends React.Component {
   sendNotification = () => {
     let targets = []
     const { admin, ce, orga, is_newcomer, title, message } = this.state
+    if (!title || !message) return
     if (admin) targets.push('admin')
     if (ce) targets.push('ce')
     if (orga) targets.push('orga')
     if (is_newcomer) targets.push('is_newcomer')
     if (targets.length === 4) targets = ['all']
-    if (targets.length > 0) sendNotification(targets, title, message)
+    if (targets.length > 0) {
+      sendNotification(targets, title, message)
+      this.setState({ title: '', message: '' })
+    }
   }
   onChange = val => {
     console.log(val)

@@ -7,6 +7,7 @@ import EtuLoginPage from './login/EtuLoginPage'
 import ProfileBundle from '../Bundles/ProfileBundle/Main'
 import PointsBundle from '../Bundles/PointsBundle/Main'
 import EventsBundle from '../Bundles/EventsBundle/Main'
+import TeamBundle from '../Bundles/TeamBundle/Main'
 import UNGBundle from '../Bundles/UNGBundle/Main'
 import PermsBundle from '../Bundles/PermsBundle/Main'
 import AdminNotificationsBundle from '../Bundles/AdminNotificationsBundle/Main'
@@ -22,6 +23,7 @@ const Navigator = createSwitchNavigator(
     Points: PointsBundle,
     Events: EventsBundle,
     Perms: PermsBundle,
+    Team: TeamBundle,
     UNG: UNGBundle,
     AdminNotifications: AdminNotificationsBundle
   },
