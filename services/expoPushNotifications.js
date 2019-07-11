@@ -1,6 +1,7 @@
-import { Permissions, Notifications } from 'expo'
+import { Notifications } from 'expo'
 import { setExpoPushToken } from './api'
 import { Alert } from 'react-native'
+import * as Permissions from 'expo-permissions'
 
 const _handleNotification = notification => {
   console.log('NOTIFICATION', notification)

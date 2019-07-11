@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { AsyncStorage } from 'react-native'
-import { Constants } from 'expo'
+import Constants from 'expo-constants'
 import config from '../config'
 import moment from 'moment'
 import {
