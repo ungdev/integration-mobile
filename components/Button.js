@@ -4,7 +4,10 @@ import { TouchableHighlight, Text, StyleSheet, View } from 'react-native'
 const Button = props => {
   return (
     <TouchableHighlight
-      style={[styles.buttonContainer, styles.button]}
+      style={[
+        styles.buttonContainer,
+        props.color ? { backgroundColor: props.color } : styles.button
+      ]}
       onPress={props.onPress}
     >
       <View style={styles.buttonContent}>

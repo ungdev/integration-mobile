@@ -30,9 +30,7 @@ class Events extends React.Component {
       this.setState({ events })
     } catch (e) {
       console.log(e.response || e)
-      let { events } = this.state
-      if (!events) events = []
-      this.setState({ events })
+      if (!this.state.events) this.setState({ events: [] })
     }
   }
 

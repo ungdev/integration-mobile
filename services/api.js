@@ -143,6 +143,28 @@ export const fetchUserPerms = async () => {
   })
   return res.data
 }
+export const joinPerm = async (id, userId) => {
+  const token = await getToken()
+  const res = await api.post(
+    `perms/${id}/join`,
+    { userId },
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  )
+  return res.data
+}
+export const leavePerm = async (id, userId) => {
+  const token = await getToken()
+  const res = await api.post(
+    `perms/${id}/leave`,
+    { userId },
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  )
+  return res.data
+}
 
 export const fetchFactions = async () => {
   const token = await getToken()

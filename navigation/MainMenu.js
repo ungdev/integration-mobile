@@ -59,6 +59,9 @@ class MainMenu extends React.Component {
       case 'ung':
         this.props.navigation.navigate('UNG')
         break
+      case 'perms':
+        this.props.navigation.navigate('Perms')
+        break
       case 'notifs':
         this.props.navigation.navigate('AdminNotifications')
         break
@@ -142,7 +145,7 @@ class MainMenu extends React.Component {
     // tous sauf nouveau
     if (!user.is_newcomer) {
       content.push(
-        // { name: 'Perms', icon: 'table' }, // TODO
+        { name: 'Perms', icon: 'table', destination: 'perms' },
         { name: 'Site étudiant', icon: 'graduation-cap', destination: 'etu' }
       )
     }
