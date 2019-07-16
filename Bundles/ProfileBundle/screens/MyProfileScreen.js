@@ -12,6 +12,7 @@ import ProfileElement from '../components/ProfileElement'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Button from '../../../components/Button'
 import SocialButton from '../../../components/SocialButton'
+import { fetchTeam } from '../../../services/api'
 
 class MyProfile extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -21,6 +22,26 @@ class MyProfile extends React.Component {
       user ? user.first_name + ' ' + user.last_name : 'Mon Profil',
       user ? true : false
     )
+  }
+
+  constructor(props) {
+    super(props)
+    this.state = { team: null }
+  }
+
+  componentDidMount() {
+    this.fetchTeam()
+  }
+
+  fetchTeam = async () => {
+    try {
+      let user = this.props.navigation.getParam('user')
+      if (!user) user = this.props.screenProps.user
+      const team = await fetchTeam(user.team_id)
+      this.setState({ team })
+    } catch (e) {
+      console.log(e.response || e)
+    }
   }
 
   render() {
@@ -88,6 +109,15 @@ class MyProfile extends React.Component {
         {user.country !== '' && privateInformation && (
           <ProfileElement type='Pays' value={user.country} icon='flag' />
         )}
+
+        {this.state.team && (
+          <ProfileElement
+            type='Équipe'
+            value={this.state.team.name}
+            icon='users'
+          />
+        )}
+        
       </ScrollView>
     )
   }
