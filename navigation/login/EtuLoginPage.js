@@ -1,16 +1,18 @@
 import React from 'react'
-import { WebView } from 'react-native'
-import { AsyncStorage } from 'react-native'
 import {
-  getToken,
-  getEtuUTTLoginUrl,
-  sendAuthorizationCode
-} from '../../services/api'
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  WebView
+} from 'react-native'
+import { getEtuUTTLoginUrl } from '../../services/api'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 class EtuLoginPage extends React.Component {
   constructor(props) {
     super(props)
-    this.tryLogin(false)
     this.state = {
       uri: null
     }
@@ -25,70 +27,68 @@ class EtuLoginPage extends React.Component {
     this.setState({ uri })
   }
 
-  tryLogin = async (redirect = true) => {
-    try {
-      const token = await getToken()
-      if (token) {
-        await this.getUserInformations()
-        this.props.navigation.navigate('Main')
-      } else {
-        console.log('REDIRECT TO LOGIN')
-        if (redirect) this.props.navigation.navigate('Login')
-      }
-    } catch (e) {
-      console.log(e)
-      if (redirect) this.props.navigation.navigate('Login')
-    }
-  }
-
-  getUserInformations = async () => {
-    try {
-      const user = await fetchUser()
-      await AsyncStorage.setItem(USER_KEY, JSON.stringify(user))
-      this.props.screenProps.setUser(user)
-    } catch (e) {
-      console.log(e.response)
-    }
-  }
-
-  login = async url => {
-    try {
-      const authorization_code = url
-        .split('?authorization_code=')[1]
-        .split('&')[0]
-      await sendAuthorizationCode(authorization_code)
-      this.tryLogin()
-    } catch (e) {
-      console.log(e)
-      this.props.navigation.navigate('Login')
-    }
-  }
-
   render() {
-    console.log('render', this.state.uri)
+    let WebViewRef = null
     if (!this.state.uri) return null
     return (
-      <WebView
-        source={{
-          uri: this.state.uri
-        }}
-        style={{ marginTop: 20 }}
-        onLoadStart={e => {
-          console.log('load', e.nativeEvent.url)
-          if (e.nativeEvent.url.indexOf('http://etu.utt.fr/user') !== -1) {
-            this.setState({ uri: 'https://etu.utt.fr/user' })
-          }
-          if (e.nativeEvent.url.indexOf('localhost:8100/?') !== -1) {
-            if (e.nativeEvent.url.indexOf('authentification_canceled') === -1) {
-              this.login(e.nativeEvent.url)
-            } else {
-              this.props.navigation.navigate('Login')
-            }
-          }
-        }}
-      />
+      <Modal
+        animationType={'slide'}
+        visible={this.props.visible}
+        onRequestClose={this.props.closeModal}
+      >
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}
+          >
+            <TouchableOpacity
+              onPress={this.props.closeModal}
+              style={{ marginTop: 20, padding: 10 }}
+            >
+              <Text style={{ color: '#4098ff' }}>fermer</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => WebViewRef.reload()}
+              style={{ marginTop: 20, padding: 10 }}
+            >
+              <Icon name='refresh' size={20} color='#4098ff' />
+            </TouchableOpacity>
+          </View>
+          <WebView
+            ref={WEBVIEW_REF => (WebViewRef = WEBVIEW_REF)}
+            source={{
+              uri: this.state.uri
+            }}
+            onLoadStart={e => {
+              console.log('load', e.nativeEvent.url)
+              if (e.nativeEvent.url.indexOf('http://etu.utt.fr/user') !== -1) {
+                this.setState({ uri: 'https://etu.utt.fr/user' })
+              }
+              if (e.nativeEvent.url.indexOf('localhost:8100/?') !== -1) {
+                if (
+                  e.nativeEvent.url.indexOf('authentification_canceled') === -1
+                ) {
+                  this.props.closeModal(e.nativeEvent.url)
+                } else {
+                  this.props.navigation.navigate('Login')
+                }
+              }
+            }}
+          />
+        </View>
+      </Modal>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  spin: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
 
 export default EtuLoginPage

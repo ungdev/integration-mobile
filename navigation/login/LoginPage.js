@@ -7,10 +7,14 @@ import {
   TextInput,
   ActivityIndicator
 } from 'react-native'
-import { getToken } from '../../services/api'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { newcomerLogin } from '../../services/api'
 import Button from '../../components/Button'
+import EtuLoginPage from './EtuLoginPage'
+import {
+  getToken,
+  sendAuthorizationCode,
+  newcomerLogin
+} from '../../services/api'
 
 class LoginPage extends React.Component {
   componentDidMount() {
@@ -25,7 +29,8 @@ class LoginPage extends React.Component {
     this.state = {
       login: '',
       password: '',
-      fetch: true
+      fetch: true,
+      modalVisible: false
     }
   }
 
@@ -37,7 +42,7 @@ class LoginPage extends React.Component {
       }
     }
     if (viewId === 'loginetu') {
-      this.props.navigation.navigate('EtuLogin')
+      this.setState({ modalVisible: true })
     }
   }
 
@@ -55,7 +60,26 @@ class LoginPage extends React.Component {
     if (this.mount) this.setState({ fetch: false })
   }
 
-  login = () => this.props.navigation.navigate('EtuLogin')
+  closeModal = (url = null) => {
+    console.log('CLOSE')
+    this.setState({ modalVisible: false, fetch: true })
+    if (url) this.login(url)
+  }
+
+  login = async url => {
+    try {
+      console.log('URL', url)
+      const authorization_code = url
+        .split('?authorization_code=')[1]
+        .split('&')[0]
+      await sendAuthorizationCode(authorization_code)
+      this.autoLogin()
+    } catch (e) {
+      console.log(e)
+      this.setState({ fetch: false })
+    }
+  }
+
   render() {
     if (this.state.fetch)
       return (
@@ -65,6 +89,10 @@ class LoginPage extends React.Component {
       )
     return (
       <View style={styles.container}>
+        <EtuLoginPage
+          visible={this.state.modalVisible}
+          closeModal={this.closeModal}
+        />
         <Image
           source={require('../../assets/images/logointe.png')}
           style={{ width: 300, height: 300 }}
