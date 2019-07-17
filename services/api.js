@@ -121,9 +121,9 @@ export const sendAuthorizationCode = async authorization_code => {
   }
 }
 
-export const fetchUser = async () => {
+export const fetchUser = async (id = 0) => { // if fetch with id = 0, fetch himself
   const token = await getToken()
-  const res = await api.get('student/0', {
+  const res = await api.get(`student/${id}`, {
     headers: { Authorization: `Bearer ${token}` }
   })
   return res.data

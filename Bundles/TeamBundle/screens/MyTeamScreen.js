@@ -69,7 +69,7 @@ class MyTeam extends React.Component {
             >
               <Text style={styles.p}>{team.description}</Text>
             </List.Accordion>
-            <Text style={styles.subtitle}>Tes Chefs d'équipes :</Text>
+            <Text style={styles.subtitle}>Chefs d'équipes :</Text>
 
             <AntList>
               {team.ce.map(user => (

@@ -4,6 +4,7 @@ import {
   View,
   StyleSheet,
   Text,
+  TouchableOpacity,
   ActivityIndicator
 } from 'react-native'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
@@ -12,7 +13,7 @@ import ProfileElement from '../components/ProfileElement'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Button from '../../../components/Button'
 import SocialButton from '../../../components/SocialButton'
-import { fetchTeam } from '../../../services/api'
+import { fetchTeam, fetchUser } from '../../../services/api'
 
 class MyProfile extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -26,10 +27,11 @@ class MyProfile extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = { team: null }
+    this.state = { team: null, user: null }
   }
 
   componentDidMount() {
+    this.fetchUser()
     this.fetchTeam()
   }
 
@@ -43,19 +45,31 @@ class MyProfile extends React.Component {
       console.log(e.response || e)
     }
   }
+  fetchUser = async () => {
+    try {
+      let u = this.props.navigation.getParam('user')
+      if (!u) this.setState({ user: this.props.screenProps.user })
+      else {
+        const user = await fetchUser(u.id)
+        this.setState({ user: { ...u, ...user } })
+      }
+    } catch (e) {
+      console.log(e.response || e)
+    }
+  }
 
   render() {
-    let user = this.props.navigation.getParam('user')
+    const { user } = this.state
     const thisuser = this.props.screenProps.user
-    if (!user) user = thisuser
-    if (!thisuser) {
+    if (!thisuser || !user) {
       return (
         <View style={styles.spin}>
           <ActivityIndicator size='large' color='#4098ff' />
         </View>
       )
     }
-    const privateInformation = user === thisuser || thisuser.admin > 0
+    console.log('USER PROFILE', user)
+    const privateInformation = user.id === thisuser.id || thisuser.admin > 0
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.fullName}>
@@ -111,13 +125,60 @@ class MyProfile extends React.Component {
         )}
 
         {this.state.team && (
-          <ProfileElement
-            type='Équipe'
-            value={this.state.team.name}
-            icon='users'
-          />
+          <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Team')}
+            style={styles.button}
+          >
+            <ProfileElement
+              type='Équipe'
+              value={this.state.team.name}
+              icon='users'
+            />
+          </TouchableOpacity>
         )}
-        
+        {user.god_father && (
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('Profile', {
+                user: user.god_father
+              })
+            }
+            style={styles.button}
+          >
+            <ProfileElement
+              type='Parrain'
+              value={
+                <Text>
+                  {`${user.god_father.first_name} ${
+                    user.god_father.last_name
+                  }\n`}
+                  {`${user.god_father.email}`}
+                </Text>
+              }
+              icon='user'
+            />
+          </TouchableOpacity>
+        )}
+        {user.god_father && (
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('Profile', {
+                user: user.god_father
+              })
+            }
+            style={styles.button}
+          >
+            <ProfileElement
+              type='Message de ton parrain'
+              value={
+                <Text>
+                  {user.god_father.referral_text}
+                </Text>
+              }
+              icon='comment-o'
+            />
+          </TouchableOpacity>
+        )}
       </ScrollView>
     )
   }
@@ -152,7 +213,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexWrap: 'wrap',
     alignItems: 'center'
-  }
+  },
+  button: { flex: 1, alignSelf: 'stretch' }
 })
 
 export default MyProfile
