@@ -126,7 +126,7 @@ class MyProfile extends React.Component {
 
         {this.state.team && (
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Team')}
+            onPress={() => this.props.navigation.push('Team', { back: true })}
             style={styles.button}
           >
             <ProfileElement
@@ -139,7 +139,7 @@ class MyProfile extends React.Component {
         {user.god_father && (
           <TouchableOpacity
             onPress={() =>
-              this.props.navigation.navigate('Profile', {
+              this.props.navigation.push('Profile', {
                 user: user.god_father
               })
             }
@@ -157,24 +157,9 @@ class MyProfile extends React.Component {
               }
               icon='user'
             />
-          </TouchableOpacity>
-        )}
-        {user.god_father && (
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('Profile', {
-                user: user.god_father
-              })
-            }
-            style={styles.button}
-          >
             <ProfileElement
               type='Message de ton parrain'
-              value={
-                <Text>
-                  {user.god_father.referral_text}
-                </Text>
-              }
+              value={<Text>{user.god_father.referral_text}</Text>}
               icon='comment-o'
             />
           </TouchableOpacity>

@@ -16,7 +16,7 @@ import { fetchTeam } from '../../../services/api'
 
 class MyTeam extends React.Component {
   static navigationOptions = ({ navigation }) =>
-    DefaultTopbar(navigation, 'Mon Équipe')
+    DefaultTopbar(navigation, 'Mon Équipe', navigation.getParam('back'))
 
   constructor(props) {
     super(props)

@@ -2,10 +2,12 @@ import {
   createStackNavigator,
 } from 'react-navigation'
 
-import MyProfile from './screens/MyProfileScreen'
+import Profile from './screens/MyProfileScreen'
 import QRCode from './screens/QRCodeScreen'
+import Team from '../TeamBundle/screens/MyTeamScreen'
 
 export default createStackNavigator({
-  MyProfile,
+  Profile,
   QRCode,
+  Team,
 })
