@@ -34,7 +34,7 @@ class EtuLoginPage extends React.Component {
       <Modal
         animationType={'slide'}
         visible={this.props.visible}
-        onRequestClose={this.props.closeModal}
+        onRequestClose={() => this.props.closeModal()}
       >
         <View style={{ flex: 1 }}>
           <View
@@ -44,7 +44,7 @@ class EtuLoginPage extends React.Component {
             }}
           >
             <TouchableOpacity
-              onPress={this.props.closeModal}
+              onPress={() => this.props.closeModal()}
               style={{ marginTop: 20, padding: 10 }}
             >
               <Text style={{ color: '#4098ff' }}>fermer</Text>

@@ -25,6 +25,7 @@ export const getToken = async () => {
     let token = await AsyncStorage.getItem(ACCESS_TOKEN_KEY)
     return token
   } else {
+    console.log('EXPIRED TOKEN, TRYING TO REFRESH')
     return refreshAccessToken()
   }
 }
@@ -32,7 +33,10 @@ export const getToken = async () => {
 export const refreshAccessToken = async () => {
   try {
     const refresh_token = await AsyncStorage.getItem(REFRESH_TOKEN_KEY)
-    if (!refresh_token || refresh_token === '') return null
+    if (!refresh_token || refresh_token === '') {
+      console.log('NO REFRESH TOKEN')
+      return null
+    }
     const res = await api.post(`oauth/token`, {
       grant_type: 'refresh_token',
       client_id: config.inte_client_id,
@@ -72,7 +76,6 @@ export const newcomerLogin = async (login, password) => {
     await AsyncStorage.setItem(ACCESS_TOKEN_EXPIRATION_KEY, expires_at)
     return res.data.access_token
   } catch (e) {
-    //todo check if e.response.data.error == "invalid_credentials" and print error
     if (
       e &&
       e.response &&
@@ -108,10 +111,10 @@ export const sendAuthorizationCode = async authorization_code => {
       authorization_code
     })
     await AsyncStorage.setItem(ACCESS_TOKEN_KEY, res.data.access_token)
-    await AsyncStorage.setItem(REFRESH_TOKEN_KEY, '')
+    await AsyncStorage.removeItem(REFRESH_TOKEN_KEY)
     await AsyncStorage.setItem(
       ACCESS_TOKEN_EXPIRATION_KEY,
-      moment(res.data.expires_at.date)
+      moment(res.data.expires_at)
         .valueOf()
         .toString(10)
     )
@@ -121,7 +124,8 @@ export const sendAuthorizationCode = async authorization_code => {
   }
 }
 
-export const fetchUser = async (id = 0) => { // if fetch with id = 0, fetch himself
+export const fetchUser = async (id = 0) => {
+  // if fetch with id = 0, fetch himself
   const token = await getToken()
   const res = await api.get(`student/${id}`, {
     headers: { Authorization: `Bearer ${token}` }

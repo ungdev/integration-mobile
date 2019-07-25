@@ -53,6 +53,8 @@ class LoginPage extends React.Component {
       if (token) {
         console.log('Autologin successfull')
         this.props.navigation.navigate('Main')
+      } else {
+        console.log('NO TOKEN')
       }
     } catch (e) {
       console.log(e)
