@@ -6,16 +6,38 @@
 
 ## Installation :
 
-1. clone repository
-* git clone https://github.com/ungdev/integration-mobile.git
-* cd integration-mobile
-2. copy config file and edit it
-* cp config.js.example config.js
-* nano config.js
-3. install dependencies :
-* yarn
-4. launch the app on expo :
-* yarn start
+1. Clone repository
+```
+git clone https://github.com/ungdev/integration-mobile.git
+cd integration-mobile
+```
+2. Copy config file and edit it
+```
+cp config.js.example config.js
+nano config.js
+```
+
+3. Install dependencies :
+If not yet install yarn : 
+**Debian / Ubuntu **
+```
+sudo apt-get update && sudo apt-get install yarn
+```
+**MacOs**
+```
+brew install yarn
+```
+**Windows**
+https://yarnpkg.com/latest.msi
+
+Then run :
+```
+yarn
+````
+4. Launch the app on expo :
+```
+yarn start
+```
 
 ## File Architecture :
 
