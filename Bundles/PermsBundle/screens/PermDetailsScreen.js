@@ -78,7 +78,7 @@ class PermDetailsScreen extends React.Component {
     const { user } = screenProps
     const { perm } = this.state
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.title}>{perm.type.name}</Text>
           <Text style={styles.subtitle}>Lieu : </Text>
           <Text style={styles.p}>{perm.place}</Text>
@@ -107,7 +107,7 @@ class PermDetailsScreen extends React.Component {
               </Tag>
             ))}
           </View>
-          {perm.free_join > 0 &&
+          {perm.open && moment(perm.open * 1000).isBefore() &&
             (perm.permanenciers.find(p => p.id === user.id) ? (
               <Button
                 color='red'
