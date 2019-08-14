@@ -62,10 +62,8 @@ class Events extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
     paddingTop: 20
   },
   spin: {

@@ -13,51 +13,42 @@ class EventsDetails extends React.Component {
     const event = this.props.navigation.getParam('event', null)
     const { user } = this.props.screenProps
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.subcontainer}>
-          <Text style={styles.title}>{event.name}</Text>
-          {user.admin > 0 && (
-            <Text style={styles.subtitle}>Catégories de l'événement :</Text>
-          )}
-          {user.admin > 0 && (
-            <View style={styles.tags}>
-              {JSON.parse(event.categories).map((c, index) => (
-                <Tag key={index}>{c}</Tag>
-              ))}
-            </View>
-          )}
-          <Text style={styles.subtitle}>Début le : </Text>
-          <Text style={styles.p}>
-            {moment(event.start_at * 1000).format('DD/MM [à] HH:mm')}
-          </Text>
-          <Text style={styles.subtitle}>Fin le : </Text>
-          <Text style={styles.p}>
-            {moment(event.end_at * 1000).format('DD/MM [à] HH:mm')}
-          </Text>
-          <Text style={styles.subtitle}>Lieu : </Text>
-          <Text style={styles.p}>{event.place}</Text>
-          <Text style={styles.subtitle}>Description : </Text>
-          <Text style={styles.p}>{event.description}</Text>
-        </ScrollView>
-      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>{event.name}</Text>
+        {user.admin > 0 && (
+          <Text style={styles.subtitle}>Catégories de l'événement :</Text>
+        )}
+        {user.admin > 0 && (
+          <View style={styles.tags}>
+            {JSON.parse(event.categories).map((c, index) => (
+              <Tag key={index}>{c}</Tag>
+            ))}
+          </View>
+        )}
+        <Text style={styles.subtitle}>Début le : </Text>
+        <Text style={styles.p}>
+          {moment(event.start_at * 1000).format('DD/MM [à] HH:mm')}
+        </Text>
+        <Text style={styles.subtitle}>Fin le : </Text>
+        <Text style={styles.p}>
+          {moment(event.end_at * 1000).format('DD/MM [à] HH:mm')}
+        </Text>
+        <Text style={styles.subtitle}>Lieu : </Text>
+        <Text style={styles.p}>{event.place}</Text>
+        <Text style={styles.subtitle}>Description : </Text>
+        <Text style={styles.p}>{event.description}</Text>
+      </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  subcontainer: {
-    flex: 1,
-    marginTop: 15,
-    padding: 10,
-    backgroundColor: '#fff',
-    width: Dimensions.get('window').width * 0.9,
-    height: Dimensions.get('window').width * 0.9
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 10
   },
   spin: {
     flex: 1,

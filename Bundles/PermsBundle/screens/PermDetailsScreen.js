@@ -78,8 +78,7 @@ class PermDetailsScreen extends React.Component {
     const { user } = screenProps
     const { perm } = this.state
     return (
-      <View style={styles.container}>
-        <ScrollView style={styles.subcontainer}>
+        <ScrollView style={styles.container}>
           <Text style={styles.title}>{perm.type.name}</Text>
           <Text style={styles.subtitle}>Lieu : </Text>
           <Text style={styles.p}>{perm.place}</Text>
@@ -125,25 +124,17 @@ class PermDetailsScreen extends React.Component {
             ))}
           <Text style={{ marginBottom: 20 }} />
         </ScrollView>
-      </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  subcontainer: {
-    flex: 1,
-    marginTop: 15,
-    padding: 10,
-    backgroundColor: '#fff',
-    width: Dimensions.get('window').width * 0.9,
-    height: Dimensions.get('window').width * 0.9
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 10
   },
   title: {
     fontSize: normalize(30),

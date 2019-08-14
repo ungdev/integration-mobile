@@ -82,7 +82,7 @@ class MyProfile extends React.Component {
         {privateInformation && (
           <Button
             onPress={() =>
-              this.props.navigation.navigate('QRCode', { code: user.qrcode })
+              this.props.navigation.navigate('QRCode', { code: user.id })
             }
             title='Afficher mon QR Code'
             icon={<Icon name='qrcode' size={30} color='white' />}

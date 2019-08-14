@@ -78,10 +78,11 @@ class MyPermsScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#ccc',
+    backgroundColor: '#eee',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingVertical: 20,
+    paddingHorizontal: 10
   },
   spin: {
     flex: 1,
