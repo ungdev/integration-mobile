@@ -21,15 +21,19 @@ class UserList extends React.Component {
     this.setState({ users })
   }
 
-  componentDidUpdate = (prevState) => {
-    const { name } = this.state
-    if (prevState.name !== name) {
-      this.fetchUsers(name)
-    }
+  componentDidMount = () => {
+    this.fetchUsers()
   }
 
   handleChange = (value) => {
-    this.setState({ name: value })
+    const { users } = this.state
+    this.setState({
+      name: value,
+      users: users.filter(
+        (user) =>
+          user.last_name.startsWith(value) || user.first_name.startsWith(value)
+      ),
+    })
   }
 
   render() {
@@ -39,8 +43,10 @@ class UserList extends React.Component {
         <InputItem value={name} onChange={this.handleChange} />
         <ScrollView>
           <AntList>
-            {users.map((user) => (
-              <AntList.Item key={user.id}>{user.first_name}</AntList.Item>
+            {name.length >= 3 && users.map((user) => (
+              <AntList.Item key={user.id}>
+                {user.first_name} {user.last_name}
+              </AntList.Item>
             ))}
           </AntList>
         </ScrollView>
