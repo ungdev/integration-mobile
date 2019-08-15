@@ -21,13 +21,11 @@ class UserList extends React.Component {
     this.setState({ users })
   }
 
-  componentDidMount = () => {
-    this.fetchUsers()
-  }
-
-  shouldComponentUpdate = (nextProps, nextState) => {
-    console.log('BOOM : ', nextState)
-    return true
+  componentDidUpdate = (prevState) => {
+    const { name } = this.state
+    if (prevState.name !== name) {
+      this.fetchUsers(name)
+    }
   }
 
   handleChange = (value) => {
