@@ -4,12 +4,14 @@ import {
   View,
   StyleSheet,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from 'react-native'
 import { fetchUserPerms } from '../../../services/api'
-import DefaultTopbar from '../../../constants/DefaultTopbar'
+import Icon from 'react-native-vector-icons/FontAwesome'
 import PermItem from '../components/PermItem'
 import moment from 'moment'
+import DefaultTopbar from '../../../constants/DefaultTopbar'
 
 class MyPermsScreen extends React.Component {
   constructor(props) {
@@ -18,8 +20,8 @@ class MyPermsScreen extends React.Component {
       perms: null
     }
   }
-  static navigationOptions = ({ navigation }) =>
-    DefaultTopbar(navigation, 'Mes Perms')
+  static navigationOptions = ({ screenProps }) =>
+    DefaultTopbar({ navigate: screenProps.goTo }, 'Mes Perms')
 
   componentDidMount() {
     this.listener = this.props.navigation.addListener(

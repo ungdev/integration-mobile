@@ -8,12 +8,12 @@ import {
   ActivityIndicator
 } from 'react-native'
 import { SegmentedControl } from '@ant-design/react-native'
-import { fetchPerms } from '../../../services/api'
+import { fetchAdminPerms } from '../../../services/api'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import PermItem from '../components/PermItem'
 import moment from 'moment'
 
-class SearchScreen extends React.Component {
+class AdminScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -36,7 +36,7 @@ class SearchScreen extends React.Component {
   }
   fetchPerms = async () => {
     try {
-      const perms = await fetchPerms()
+      const perms = await fetchAdminPerms()
       this.setState({ perms })
     } catch (e) {
       console.log(e.response || e)
@@ -130,7 +130,7 @@ class SearchScreen extends React.Component {
               key={perm.id}
               color={this.getColor(perm)}
               navigate={() =>
-                this.props.navigation.navigate('PermDetails', {
+                this.props.navigation.navigate('AdminDetails', {
                   perm,
                   onGoBack: this.fetchPerms
                 })
@@ -166,4 +166,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SearchScreen
+export default AdminScreen

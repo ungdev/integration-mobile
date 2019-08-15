@@ -13,7 +13,7 @@ import Tag from '../../../components/Tag'
 import Button from '../../../components/Button'
 import { joinPerm, leavePerm } from '../../../services/api'
 
-class PermDetailsScreen extends React.Component {
+class AdminDetailsScreen extends React.Component {
   static navigationOptions = ({ navigation }) =>
     DefaultTopbar(navigation, "Détails d'une perm", true)
 
@@ -155,4 +155,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default PermDetailsScreen
+export default AdminDetailsScreen

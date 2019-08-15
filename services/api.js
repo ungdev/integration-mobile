@@ -147,6 +147,13 @@ export const fetchPerms = async () => {
   })
   return res.data
 }
+export const fetchAdminPerms = async () => {
+  const token = await getToken()
+  const res = await api.get('adminperms', {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return res.data
+}
 export const fetchUserPerms = async () => {
   const token = await getToken()
   const res = await api.get('user/perms', {
