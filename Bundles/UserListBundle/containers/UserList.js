@@ -34,7 +34,6 @@ class UserList extends React.Component {
 
   render() {
     const { users, name } = this.state
-    console.log()
     return (
       <View>
         <InputItem
