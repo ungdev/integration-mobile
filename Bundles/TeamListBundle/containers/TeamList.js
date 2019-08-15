@@ -21,7 +21,7 @@ class UserList extends React.Component {
   }
 
   componentDidMount = () => {
-      this.fetchTeams()
+    this.fetchTeams()
   }
 
   render() {
@@ -31,7 +31,16 @@ class UserList extends React.Component {
         <ScrollView>
           <AntList>
             {teams.map((team) => (
-              <AntList.Item key={team.id} onPress={() => this.props.navigation.push('')}>{team.name}</AntList.Item>
+              <AntList.Item
+                key={team.id}
+                onPress={() =>
+                  this.props.navigation.push('Team', {
+                    back: true,
+                    team_id: team.id,
+                  })
+                }>
+                {team.name}
+              </AntList.Item>
             ))}
           </AntList>
         </ScrollView>

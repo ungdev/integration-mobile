@@ -1,7 +1,9 @@
 import { createStackNavigator } from 'react-navigation'
 
-import Team from './containers/TeamList'
+import TeamList from './containers/TeamList'
+import Team from '../TeamBundle/screens/MyTeamScreen'
 
 export default createStackNavigator({
-  Team,
+  TeamList,
+  Team
 })
