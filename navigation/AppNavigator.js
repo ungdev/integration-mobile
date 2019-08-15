@@ -12,41 +12,47 @@ import UNGBundle from '../Bundles/UNGBundle/Main'
 import PermsBundle from '../Bundles/PermsBundle/Main'
 import AdminNotificationsBundle from '../Bundles/AdminNotificationsBundle/Main'
 import UserListBundle from '../Bundles/UserListBundle/Main'
+import TeamListBundle from '../Bundles/TeamListBundle/Main'
 
 const Navigator = createSwitchNavigator(
-    {
-        // You could add another route here for authentication.
-        // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-        Main: MainMenu, // menu with all buttons to select a bundle
-        Login: LoginPage,
-        EtuLogin: EtuLoginPage,
-        Profile: ProfileBundle,
-        Points: PointsBundle,
-        Events: EventsBundle,
-        Perms: PermsBundle,
-        Team: TeamBundle,
-        UNG: UNGBundle,
-        AdminNotifications: AdminNotificationsBundle,
-        UserList: UserListBundle
-    },
-    {
-        initialRouteName: 'Login',
-    }
+  {
+    // You could add another route here for authentication.
+    // Read more at https://reactnavigation.org/docs/en/auth-flow.html
+    Main: MainMenu, // menu with all buttons to select a bundle
+    Login: LoginPage,
+    EtuLogin: EtuLoginPage,
+    Profile: ProfileBundle,
+    Points: PointsBundle,
+    Events: EventsBundle,
+    Perms: PermsBundle,
+    Team: TeamBundle,
+    UNG: UNGBundle,
+    AdminNotifications: AdminNotificationsBundle,
+    UserList: UserListBundle,
+    TeamList: TeamListBundle,
+  },
+  {
+    initialRouteName: 'Login',
+  }
 )
 
 class AppNavigator extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            user: null,
-        }
+  constructor(props) {
+    super(props)
+    this.state = {
+      user: null,
     }
+  }
 
-    setUser = (user) => this.setState({ user })
+  setUser = (user) => this.setState({ user })
 
-    render() {
-        return <Navigator screenProps={{ user: this.state.user, setUser: this.setUser }} />
-    }
+  render() {
+    return (
+      <Navigator
+        screenProps={{ user: this.state.user, setUser: this.setUser }}
+      />
+    )
+  }
 }
 
 export default AppNavigator

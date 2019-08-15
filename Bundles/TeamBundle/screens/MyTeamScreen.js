@@ -5,7 +5,7 @@ import {
   View,
   StyleSheet,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native'
 import { normalize } from '../../../services/font'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
@@ -17,11 +17,10 @@ import { fetchTeam } from '../../../services/api'
 class MyTeam extends React.Component {
   static navigationOptions = ({ navigation }) =>
     DefaultTopbar(navigation, 'Mon Équipe', navigation.getParam('back'))
-
   constructor(props) {
     super(props)
     this.state = {
-      team: null
+      team: null,
     }
   }
   componentDidMount() {
@@ -30,7 +29,7 @@ class MyTeam extends React.Component {
 
   fetchTeam = async () => {
     try {
-      const team = await fetchTeam(this.props.screenProps.user.team.id)
+      const team = await fetchTeam(this.props.navigation.getParam('team_id'))
       this.setState({ team })
     } catch (e) {
       console.log(e.response || e)
@@ -60,26 +59,22 @@ class MyTeam extends React.Component {
             <View style={styles.social}>
               <SocialButton type='facebook' link={team.facebook} />
             </View>
-            <Text style={styles.subtitle}>
-              Faction {this.props.screenProps.user.team.faction.name}
-            </Text>
+            <Text style={styles.subtitle}>Faction {team.faction.name}</Text>
             <List.Accordion
               title="Description de l'équipe"
-              style={{ backgroundColor: 'white' }}
-            >
+              style={{ backgroundColor: 'white' }}>
               <Text style={styles.p}>{team.description}</Text>
             </List.Accordion>
             <Text style={styles.subtitle}>Chefs d'équipes :</Text>
 
             <AntList>
-              {team.ce.map(user => (
+              {team.ce.map((user) => (
                 <AntList.Item
                   arrow='horizontal'
                   key={user.id}
                   onPress={() =>
                     this.props.navigation.push('Profile', { user })
-                  }
-                >
+                  }>
                   <Text>
                     {user.first_name} {user.last_name} ({user.surname})
                   </Text>
@@ -99,7 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   subcontainer: {
     flex: 1,
@@ -107,36 +102,36 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#fff',
     width: Dimensions.get('window').width * 0.9,
-    height: Dimensions.get('window').width * 0.9
+    height: Dimensions.get('window').width * 0.9,
   },
 
   spin: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   title: {
     fontSize: normalize(30),
     textAlign: 'center',
-    marginBottom: 20
+    marginBottom: 20,
   },
   subtitle: {
     fontSize: normalize(20),
     marginTop: 20,
     marginBottom: 5,
-    color: '#4098ff'
+    color: '#4098ff',
   },
   p: {
     fontSize: normalize(15),
-    textAlign: 'justify'
+    textAlign: 'justify',
   },
   social: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 })
 
 export default MyTeam
