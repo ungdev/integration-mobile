@@ -1,6 +1,6 @@
 import React from 'react'
 import { ScrollView, View } from 'react-native'
-import { List as AntList, InputItem } from '@ant-design/react-native'
+import { List as AntList } from '@ant-design/react-native'
 import { fetchTeams } from '../../../services/api'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 
