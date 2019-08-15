@@ -151,9 +151,10 @@ export const fetchTeam = async (id) => {
 
 export const fetchTeams = async () => {
   const token = await getToken()
-  const res = await api.get(`team/`, {
+  const res = await api.get('team', {
     headers: { Authorization: `Bearer ${token}` },
   })
+  return res.data
 }
 
 export const fetchPerms = async () => {
