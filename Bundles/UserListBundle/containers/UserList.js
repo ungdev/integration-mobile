@@ -51,7 +51,11 @@ class UserList extends React.Component {
                     user.first_name.startsWith(name)
                 )
                 .map((user) => (
-                  <AntList.Item key={user.id}>
+                  <AntList.Item
+                    key={user.id}
+                    onPress={() =>
+                      this.props.navigation.push('Profile', { user })
+                    }>
                     {user.first_name} {user.last_name}
                   </AntList.Item>
                 ))}
