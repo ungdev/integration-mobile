@@ -9,6 +9,9 @@ import Search from './screens/SearchScreen'
 import Admin from './screens/AdminScreen'
 import PermDetails from './screens/PermDetailsScreen'
 import AdminDetails from './screens/AdminDetailsScreen'
+import Scanner from '../ProfileBundle/screens/ScanScreen'
+import ValidateUser from './screens/ValidateUserScreen'
+import InvalidateUser from './screens/InvalidateUserScreen'
 
 // First Stack is the left button
 const MyPermsStack = createStackNavigator({
@@ -25,7 +28,10 @@ const SearchStack = createStackNavigator({
 // Third Stack is the right button
 const AdminStack = createStackNavigator({
   Admin,
-  AdminDetails
+  AdminDetails,
+  Scanner,
+  ValidateUser,
+  InvalidateUser
 })
 
 class PermBundle extends React.Component {

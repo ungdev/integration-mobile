@@ -5956,6 +5956,14 @@ react-native-modal-popover@^0.0.12:
     lodash.debounce "^4.0.8"
     prop-types "^15.6.2"
 
+react-native-numeric-input@^1.8.3:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/react-native-numeric-input/-/react-native-numeric-input-1.8.3.tgz#e869aa1b60d0c38b92e84e44bb28944f48b4ccd3"
+  integrity sha512-8MeAgbM4+doAkwjPg7iEA604z4d7krJz9r0755YThldCdIvwWZh5VbtRDHxbkMVQ2Ix5xRujFSn7uQWMtln8RA==
+  dependencies:
+    prop-types "^15.6.1"
+    react-native-pixel-perfect "^1.0.1"
+
 react-native-paper@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-2.7.0.tgz#36f7228548884d4c1cde8bd7b1d44b6621a9107d"
@@ -5966,6 +5974,11 @@ react-native-paper@^2.7.0:
     create-react-context "^0.2.3"
     hoist-non-react-statics "^3.1.0"
     react-lifecycles-compat "^3.0.4"
+
+react-native-pixel-perfect@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-pixel-perfect/-/react-native-pixel-perfect-1.0.2.tgz#8e6dc97e377caa4bd07f9e584ba438d53c0e25e8"
+  integrity sha512-0IvYCNkxuQbQC9q4tI+C3i6o38nbx916p7gBRBWuPxDhKBCuTkVV3VukcfW6vtjRlwQm6kwQcF9OtI+yUBt+YA==
 
 react-native-platform-touchable@^1.1.1:
   version "1.1.1"

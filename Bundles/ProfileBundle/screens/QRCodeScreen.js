@@ -4,10 +4,11 @@ import QRCode from 'react-native-qrcode';
 
 class QRCodeScreen extends React.Component {
   render() {
+    const code = this.props.navigation.getParam('code')
     return (
       <View style={styles.container}>
         <QRCode
-          value={this.props.navigation.getParam('code')}
+          value={`${code}`}
           size={300}
           bgColor='#00b5ec'
           fgColor='white'

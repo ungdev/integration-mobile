@@ -22,7 +22,7 @@ class AdminScreen extends React.Component {
     }
   }
   static navigationOptions = ({ screenProps }) =>
-    DefaultTopbar({ navigate: screenProps.goTo }, 'Liste des perms')
+    DefaultTopbar({ navigate: screenProps.goTo }, 'Administration')
 
   componentDidMount() {
     this.listener = this.props.navigation.addListener(

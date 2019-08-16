@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   Alert,
+  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,7 +12,10 @@ import DefaultTopbar from '../../../constants/DefaultTopbar'
 import moment from 'moment'
 import Tag from '../../../components/Tag'
 import Button from '../../../components/Button'
-import { joinPerm, leavePerm } from '../../../services/api'
+import { addUsersToPerm, removeUserFromPerm } from '../../../services/api'
+import { List as AntList } from '@ant-design/react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 class AdminDetailsScreen extends React.Component {
   static navigationOptions = ({ navigation }) =>
@@ -28,25 +32,23 @@ class AdminDetailsScreen extends React.Component {
       perm: props.navigation.getParam('perm')
     }
   }
-  showJoinAlert = () => {
+  goToUsers = () => {
+    //add fleuh page
+  }
+  showRemoveAlert = user => {
     Alert.alert(
       'Êtes vous sûr ?',
-      'Si vous rejoignez cette perm, vous vous engagez à venir et tenir la perm !',
-      [{ text: 'Annuler' }, { text: 'Rejoindre', onPress: this.join }]
+      `Vous allez retirer ${user.first_name} ${user.last_name} de la perm`,
+      [
+        { text: 'Annuler' },
+        { text: 'Retirer', onPress: () => this.remove(user) }
+      ]
     )
   }
-  showLeaveAlert = () => {
-    Alert.alert(
-      'Êtes vous sûr ?',
-      "Vous vous êtes engagé à effectuer cette perm, si vous la quitter vous risquez de compromettre l'organisation de l'inté. Prévenez les orgas si ce n'est pas déjà fait !",
-      [{ text: 'Annuler' }, { text: 'Quitter', onPress: this.leave }]
-    )
-  }
-  join = async () => {
-    const { user } = this.props.screenProps
+  add = async user => {
     let { perm } = this.state
     try {
-      await joinPerm(perm.id, user.id)
+      await addUsersToPerm(perm.id, [user.id])
       perm.permanenciers.push({
         id: user.id,
         first_name: user.first_name,
@@ -60,11 +62,10 @@ class AdminDetailsScreen extends React.Component {
       //TODO send error notification
     }
   }
-  leave = async () => {
-    const { user } = this.props.screenProps
+  remove = async user => {
     let { perm } = this.state
     try {
-      await leavePerm(perm.id, user.id)
+      await removeUserFromPerm(perm.id, user.id)
       perm.permanenciers = perm.permanenciers.filter(p => p.id !== user.id)
       this.setState({ perm })
     } catch (e) {
@@ -72,21 +73,82 @@ class AdminDetailsScreen extends React.Component {
       //TODO send error notification
     }
   }
+  scanCallback = user => {
+    this.props.navigation.push('ValidateUser', {
+      user,
+      perm: this.state.perm,
+      callback: (commentary, pointsPenalty) =>
+        this.validateCallback(user, commentary, pointsPenalty)
+    })
+  }
+  validateCallback = (user, commentary, pointsPenalty) => {
+    const { perm } = this.state
+    const index = perm.permanenciers.findIndex(u => u.id === user.id)
+    if (index === -1)
+      perm.permanenciers.push({
+        absence_reason: null,
+        commentary,
+        first_name: user.first_name,
+        id: user.id,
+        last_name: user.last_name,
+        pointsPenalty,
+        presence: 'present',
+        student_id: user.student_id,
+        surname: user.surname
+      })
+    else {
+      perm.permanenciers[index].commentary = commentary
+      perm.permanenciers[index].pointsPenalty = pointsPenalty
+      perm.permanenciers[index].presence = 'present'
+    }
+    this.setState({ perm })
+  }
+  invalidateCallback = (user, commentary, pointsPenalty, absence_reason) => {
+    const { perm } = this.state
+    const index = perm.permanenciers.findIndex(u => u.id === user.id)
+    if (index === -1)
+      perm.permanenciers.push({
+        absence_reason,
+        commentary,
+        first_name: user.first_name,
+        id: user.id,
+        last_name: user.last_name,
+        pointsPenalty,
+        presence: 'absent',
+        student_id: user.student_id,
+        surname: user.surname
+      })
+    else {
+      perm.permanenciers[index].commentary = commentary
+      perm.permanenciers[index].pointsPenalty = pointsPenalty
+      perm.permanenciers[index].presence = 'absent'
+      perm.permanenciers[index].absence_reason = absence_reason
+    }
+    this.setState({ perm })
+  }
   render() {
-    const { screenProps } = this.props
-    const { user } = screenProps
     const { perm } = this.state
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.subcontainer}>
           <Text style={styles.title}>{perm.type.name}</Text>
-          <Text style={styles.subtitle}>Lieu : </Text>
-          <Text style={styles.p}>{perm.place}</Text>
-          <Text style={styles.subtitle}>Description : </Text>
-          <Text style={styles.p}>{perm.description}</Text>
           <Text style={styles.subtitle}>Horraire : </Text>
           <Text style={styles.p}>{`Le ${moment(perm.start * 1000).format(
             'DD/MM [de] HH:mm'
           )} à ${moment(perm.end * 1000).format('HH:mm')}`}</Text>
+
+          <Text style={styles.subtitle}>
+            Scanner quelqu'un pour le noter présent :
+          </Text>
+          <Button
+            onPress={() =>
+              this.props.navigation.push('Scanner', {
+                callback: this.scanCallback
+              })
+            }
+            title="Scanner quelqu'un"
+            icon={<Icon name='qrcode' size={30} color='white' />}
+          />
           <Text style={styles.subtitle}>Responsables :</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             {perm.respos.map(user => (
@@ -99,41 +161,94 @@ class AdminDetailsScreen extends React.Component {
             Permanenciers ({perm.permanenciers.length}/{perm.nbr_permanenciers})
             :
           </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          <AntList>
             {perm.permanenciers.map(user => (
-              <Tag key={user.id} style={styles.tag}>
-                {user.first_name} {user.last_name}
-              </Tag>
+              <AntList.Item key={user.id}>
+                <View style={{ flexDirection: 'row' }}>
+                  {user.presence && user.presence === 'present' && (
+                    <Icon name='check' size={20} color='green' />
+                  )}
+                  {user.presence && user.presence === 'absent' && (
+                    <Icon name='close' size={20} color='red' />
+                  )}
+                  {!user.presence && (
+                    <Icon name='question' size={20} color='#4098ff' />
+                  )}
+                  <Text>
+                    {user.first_name} {user.last_name}
+                  </Text>
+                  {user.presence && user.presence !== 'present' && (
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.push('ValidateUser', {
+                          user,
+                          perm: this.state.perm,
+                          callback: (commentary, pointsPenalty) =>
+                            this.validateCallback(
+                              user,
+                              commentary,
+                              pointsPenalty
+                            )
+                        })
+                      }
+                      style={styles.icon}
+                    >
+                      <Icon name='check' size={20} color='green' />
+                    </TouchableOpacity>
+                  )}
+                  {user.presence && user.presence !== 'absent' && (
+                    <TouchableOpacity
+                      onPress={() =>
+                        this.props.navigation.push('InvalidateUser', {
+                          user,
+                          perm: this.state.perm,
+                          callback: (
+                            commentary,
+                            pointsPenalty,
+                            absence_reason
+                          ) =>
+                            this.invalidateCallback(
+                              user,
+                              commentary,
+                              pointsPenalty,
+                              absence_reason
+                            )
+                        })
+                      }
+                      style={styles.icon}
+                    >
+                      <Icon name='close' size={20} color='red' />
+                    </TouchableOpacity>
+                  )}
+                  <TouchableOpacity
+                    onPress={() => this.showRemoveAlert(user)}
+                    style={styles.icon}
+                  >
+                    <Icon name='trash-o' size={20} color='red' />
+                  </TouchableOpacity>
+                </View>
+              </AntList.Item>
             ))}
-          </View>
-          {perm.open && moment(perm.open * 1000).isBefore() &&
-            (perm.permanenciers.find(p => p.id === user.id) ? (
-              <Button
-                color='red'
-                onPress={this.showLeaveAlert}
-                title='Quitter cette permanence'
-              />
-            ) : (
-              perm.permanenciers.length < perm.nbr_permanenciers && (
-                <Button
-                  onPress={this.showJoinAlert}
-                  title='Rejoindre cette permanence'
-                />
-              )
-            ))}
+          </AntList>
+          <Button onPress={this.goToUsers} title='Ajouter un permanencier' />
           <Text style={{ marginBottom: 20 }} />
         </ScrollView>
+      </View>
     )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#fff',
-    flexDirection: 'column',
-    alignItems: 'center',
-    paddingVertical: 20,
-    paddingHorizontal: 10
+    alignItems: 'center'
+  },
+  subcontainer: {
+    marginTop: 15,
+    padding: 10,
+    backgroundColor: '#fff',
+    width: Dimensions.get('window').width * 0.9
   },
   title: {
     fontSize: normalize(30),
@@ -148,6 +263,9 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 5,
     color: '#4098ff'
+  },
+  icon: {
+    marginHorizontal: 5
   },
   p: {
     fontSize: normalize(15),

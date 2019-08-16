@@ -102,12 +102,10 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   subcontainer: {
-    flex: 1,
     marginTop: 15,
     padding: 10,
     backgroundColor: '#fff',
     width: Dimensions.get('window').width * 0.9,
-    height: Dimensions.get('window').width * 0.9
   },
 
   spin: {
