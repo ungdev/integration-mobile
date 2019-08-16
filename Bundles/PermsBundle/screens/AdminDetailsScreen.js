@@ -33,7 +33,7 @@ class AdminDetailsScreen extends React.Component {
     }
   }
   goToUsers = () => {
-    //add fleuh page
+    this.props.navigation.push('UserList', { callback: this.add })
   }
   showRemoveAlert = user => {
     Alert.alert(
@@ -138,7 +138,10 @@ class AdminDetailsScreen extends React.Component {
           )} à ${moment(perm.end * 1000).format('HH:mm')}`}</Text>
 
           <Text style={styles.subtitle}>
-            Scanner quelqu'un pour le noter présent :
+            Scanner quelqu'un pour le noter présent
+          </Text>
+          <Text style={styles.p}>
+            Cela l'ajoutera à la perm s'il ne l'était pas déjà :
           </Text>
           <Button
             onPress={() =>
@@ -161,23 +164,62 @@ class AdminDetailsScreen extends React.Component {
             Permanenciers ({perm.permanenciers.length}/{perm.nbr_permanenciers})
             :
           </Text>
+          <Text style={styles.p}>
+            Vous pouvez ici gérer les permanenciers de cette permanence. L'icone
+            à gauche indique l'état de la personne : inconnu (
+            <Icon
+              name='question'
+              size={20}
+              color='#4098ff'
+              style={styles.icon}
+            />
+            ), présent (
+            <Icon name='check' size={20} color='green' style={styles.icon} />)
+            ou absent (
+            <Icon name='close' size={20} color='red' style={styles.icon} />
+            ).
+          </Text>
+          <Text style={styles.p}>
+            Les icones à droite vous permettent d'interagir avec l'utilisateur :{' '}
+            <Icon name='check' size={20} color='green' style={styles.icon} />{' '}
+            pour le noter présent,{' '}
+            <Icon name='close' size={20} color='red' style={styles.icon} /> pour
+            le noter absent et <Icon name='trash-o' size={20} color='red' />{' '}
+            pour le retirer de la permanence. Vous pouvez ajouter des
+            utilisateurs plus bas.
+          </Text>
           <AntList>
             {perm.permanenciers.map(user => (
               <AntList.Item key={user.id}>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                   {user.presence && user.presence === 'present' && (
-                    <Icon name='check' size={20} color='green' />
+                    <Icon
+                      name='check'
+                      size={20}
+                      color='green'
+                      style={styles.icon}
+                    />
                   )}
                   {user.presence && user.presence === 'absent' && (
-                    <Icon name='close' size={20} color='red' />
+                    <Icon
+                      name='close'
+                      size={20}
+                      color='red'
+                      style={styles.icon}
+                    />
                   )}
                   {!user.presence && (
-                    <Icon name='question' size={20} color='#4098ff' />
+                    <Icon
+                      name='question'
+                      size={20}
+                      color='#4098ff'
+                      style={styles.icon}
+                    />
                   )}
                   <Text>
                     {user.first_name} {user.last_name}
                   </Text>
-                  {user.presence && user.presence !== 'present' && (
+                  {(!user.presence || user.presence !== 'present') && (
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.push('ValidateUser', {
@@ -196,7 +238,7 @@ class AdminDetailsScreen extends React.Component {
                       <Icon name='check' size={20} color='green' />
                     </TouchableOpacity>
                   )}
-                  {user.presence && user.presence !== 'absent' && (
+                  {(!user.presence || user.presence !== 'absent') && (
                     <TouchableOpacity
                       onPress={() =>
                         this.props.navigation.push('InvalidateUser', {

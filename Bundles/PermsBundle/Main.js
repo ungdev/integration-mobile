@@ -12,6 +12,7 @@ import AdminDetails from './screens/AdminDetailsScreen'
 import Scanner from '../ProfileBundle/screens/ScanScreen'
 import ValidateUser from './screens/ValidateUserScreen'
 import InvalidateUser from './screens/InvalidateUserScreen'
+import UserList from '../UserListBundle/containers/UserList'
 
 // First Stack is the left button
 const MyPermsStack = createStackNavigator({
@@ -31,7 +32,8 @@ const AdminStack = createStackNavigator({
   AdminDetails,
   Scanner,
   ValidateUser,
-  InvalidateUser
+  InvalidateUser,
+  UserList
 })
 
 class PermBundle extends React.Component {
@@ -41,7 +43,7 @@ class PermBundle extends React.Component {
       { key: 'MyPermsStack', title: 'Mes perms', icon: 'briefcase' },
       { key: 'SearchStack', title: 'Liste', icon: 'search' }
     ]
-    if (props.screenProps.user.admin > 0) {
+    if (props.screenProps.user.admin > 0 || props.screenProps.user.orga > 0) {
       routes = [
         { key: 'MyPermsStack', title: 'Mes perms', icon: 'briefcase' },
         { key: 'SearchStack', title: 'Liste', icon: 'search' },
