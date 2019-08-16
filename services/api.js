@@ -141,10 +141,18 @@ export const fetchUsers = async (name = '') => {
   return res.data
 }
 
-export const fetchTeam = async id => {
+export const fetchTeam = async (id) => {
   const token = await getToken()
   const res = await api.get(`team/${id}`, {
-    headers: { Authorization: `Bearer ${token}` }
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return res.data
+}
+
+export const fetchTeams = async () => {
+  const token = await getToken()
+  const res = await api.get('team', {
+    headers: { Authorization: `Bearer ${token}` },
   })
   return res.data
 }

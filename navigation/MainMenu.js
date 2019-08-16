@@ -68,6 +68,9 @@ class MainMenu extends React.Component {
       case 'userList':
         this.props.navigation.navigate('UserList')
         break
+      case 'teamList':
+        this.props.navigation.navigate('TeamList')
+        break
       case 'slack':
         Linking.canOpenURL('slack://open').then((supported) => {
           if (supported) {
@@ -159,7 +162,7 @@ class MainMenu extends React.Component {
     //admin
     if (user.admin) {
       content.push(
-        // { name: 'Équipes', icon: 'users' }, // TODO
+        { name: 'Équipes', icon: 'users', destination: 'teamList' }, // TODO
         { name: 'Étudiants', icon: 'list-ul', destination: 'userList' },
         { name: 'Notifications', icon: 'bullhorn', destination: 'notifs' }
       )

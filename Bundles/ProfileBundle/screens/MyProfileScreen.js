@@ -126,7 +126,7 @@ class MyProfile extends React.Component {
 
         {this.state.team && (
           <TouchableOpacity
-            onPress={() => this.props.navigation.push('Team', { back: true })}
+            onPress={() => this.props.navigation.push('Team', { back: true, team_id: user.team_id })}
             style={styles.button}
           >
             <ProfileElement

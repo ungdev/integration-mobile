@@ -17,7 +17,6 @@ import { fetchTeam } from '../../../services/api'
 class MyTeam extends React.Component {
   static navigationOptions = ({ navigation }) =>
     DefaultTopbar(navigation, 'Mon Équipe', navigation.getParam('back'))
-
   constructor(props) {
     super(props)
     this.state = {
@@ -30,7 +29,7 @@ class MyTeam extends React.Component {
 
   fetchTeam = async () => {
     try {
-      const team = await fetchTeam(this.props.screenProps.user.team.id)
+      const team = await fetchTeam(this.props.navigation.getParam('team_id'))
       this.setState({ team })
     } catch (e) {
       console.log(e.response || e)
@@ -60,9 +59,7 @@ class MyTeam extends React.Component {
             <View style={styles.social}>
               <SocialButton type='facebook' link={team.facebook} />
             </View>
-            <Text style={styles.subtitle}>
-              Faction {this.props.screenProps.user.team.faction.name}
-            </Text>
+            <Text style={styles.subtitle}>Faction {team.faction.name}</Text>
             <List.Accordion
               title="Description de l'équipe"
               style={{ backgroundColor: 'white' }}
@@ -105,7 +102,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     padding: 10,
     backgroundColor: '#fff',
-    width: Dimensions.get('window').width * 0.9,
+    width: Dimensions.get('window').width * 0.9
   },
 
   spin: {
