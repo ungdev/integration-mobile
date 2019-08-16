@@ -101,8 +101,8 @@ class AdminScreen extends React.Component {
       if (a.start < b.start) return -1
       return 0
     })
-    const days = this.getDays(perms)
     perms = perms.filter(perm => moment(perm.end * 1000).isAfter())
+    const days = this.getDays(perms)
     if (this.state.selected) {
       perms = perms.filter(
         perm =>

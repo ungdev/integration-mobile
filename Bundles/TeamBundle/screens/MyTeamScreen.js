@@ -29,7 +29,7 @@ class MyTeam extends React.Component {
 
   fetchTeam = async () => {
     try {
-      const team = await fetchTeam(this.props.navigation.getParam('team_id'))
+      const team = await fetchTeam(this.props.screenProps.user.team_id)
       this.setState({ team })
     } catch (e) {
       console.log(e.response || e)

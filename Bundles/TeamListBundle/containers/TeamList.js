@@ -4,9 +4,9 @@ import { List as AntList } from '@ant-design/react-native'
 import { fetchTeams } from '../../../services/api'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 
-class UserList extends React.Component {
+class TeamList extends React.Component {
   static navigationOptions = ({ navigation }) => {
-    return DefaultTopbar(navigation, 'UserList', false)
+    return DefaultTopbar(navigation, 'Liste des équipes', false)
   }
   constructor(props) {
     super(props)
@@ -49,4 +49,4 @@ class UserList extends React.Component {
   }
 }
 
-export default UserList
+export default TeamList
