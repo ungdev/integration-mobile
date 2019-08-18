@@ -59,6 +59,9 @@ class MainMenu extends React.Component {
       case 'ung':
         this.props.navigation.navigate('UNG')
         break
+      case 'bde':
+        this.props.navigation.navigate('BDE')
+        break
       case 'perms':
         this.props.navigation.navigate('Perms')
         break
@@ -177,10 +180,11 @@ class MainMenu extends React.Component {
         image: require('../assets/images/ung.png'),
         destination: 'ung'
       },
-      /*{
+      {
         name: '',
-        image: require('../assets/images/bdeutt.png') // TODO
-      },*/
+        image: require('../assets/images/bdeutt.png'),
+        destination: 'bde'
+      },
       {
         name: 'Se déconnecter',
         icon: 'sign-out',

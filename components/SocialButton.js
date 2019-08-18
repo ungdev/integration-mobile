@@ -5,13 +5,17 @@ import { WebBrowser } from 'expo'
 const openModal = async link => await WebBrowser.openBrowserAsync(link)
 
 const SocialButton = props => {
-  if (!props.link) return null
-  console.log('SOCIALBUTTON')
+  if (!props.link && !props.action) return null
   return (
     <SocialIcon
       type={props.type}
-      onPress={() => openModal(props.link)}
-      onLongPress={() => openModal(props.link)}
+      onPress={() => {
+        if (props.action) props.action()
+        else openModal(props.link)
+      }}
+      style={
+        props.backgroundColor ? { backgroundColor: props.backgroundColor } : {}
+      }
     />
   )
 }

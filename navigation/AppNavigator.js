@@ -9,6 +9,7 @@ import PointsBundle from '../Bundles/PointsBundle/Main'
 import EventsBundle from '../Bundles/EventsBundle/Main'
 import TeamBundle from '../Bundles/TeamBundle/Main'
 import UNGBundle from '../Bundles/UNGBundle/Main'
+import BDEBundle from '../Bundles/BDEBundle/Main'
 import PermsBundle from '../Bundles/PermsBundle/Main'
 import AdminNotificationsBundle from '../Bundles/AdminNotificationsBundle/Main'
 import UserListBundle from '../Bundles/UserListBundle/Main'
@@ -28,6 +29,7 @@ const Navigator = createSwitchNavigator(
     Perms: PermsBundle,
     Team: TeamBundle,
     UNG: UNGBundle,
+    BDE: BDEBundle,
     AdminNotifications: AdminNotificationsBundle,
     UserList: UserListBundle,
     TeamList: TeamListBundle,
