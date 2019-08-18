@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import * as Permissions from 'expo-permissions'
 import { fetchUser } from '../../../services/api'
 
@@ -31,7 +31,7 @@ class ScanScreen extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' })
   }
   render() {
-    const { hasCameraPermission, scanned } = this.state
+    const { hasCameraPermission, loading } = this.state
 
     if (hasCameraPermission === null) {
       return <Text>Demande de permission en cours...</Text>
@@ -48,7 +48,7 @@ class ScanScreen extends React.Component {
         }}
       >
         <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : this.handleBarCodeScanned}
+          onBarCodeScanned={loading ? undefined : this.handleBarCodeScanned}
           style={StyleSheet.absoluteFillObject}
         />
       </View>

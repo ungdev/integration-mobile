@@ -6,7 +6,7 @@ import {
   StyleSheet,
   AsyncStorage,
   Dimensions,
-  Linking,
+  Linking
 } from 'react-native'
 import GridButton from '../components/Menu/GridButton'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -15,7 +15,7 @@ import {
   ACCESS_TOKEN_KEY,
   REFRESH_TOKEN_KEY,
   ACCESS_TOKEN_EXPIRATION_KEY,
-  USER_KEY,
+  USER_KEY
 } from '../constants/StorageKey'
 import { fetchUser, getToken } from '../services/api'
 import { registerForExpoPushNotifications } from '../services/expoPushNotifications'
@@ -45,7 +45,7 @@ class MainMenu extends React.Component {
       this.props.navigation.navigate('Login')
     }
   }
-  click = async (d) => {
+  click = async d => {
     switch (d) {
       case 'profile':
         this.props.navigation.navigate('Profile')
@@ -65,6 +65,9 @@ class MainMenu extends React.Component {
       case 'notifs':
         this.props.navigation.navigate('AdminNotifications')
         break
+      case 'checkins':
+        this.props.navigation.navigate('Checkins')
+        break
       case 'userList':
         this.props.navigation.navigate('UserList')
         break
@@ -72,7 +75,7 @@ class MainMenu extends React.Component {
         this.props.navigation.navigate('TeamList')
         break
       case 'slack':
-        Linking.canOpenURL('slack://open').then((supported) => {
+        Linking.canOpenURL('slack://open').then(supported => {
           if (supported) {
             Linking.openURL('slack://open')
           } else {
@@ -132,18 +135,18 @@ class MainMenu extends React.Component {
       { name: 'Points', icon: 'trophy', destination: 'points' },
       //{ name: 'Plan', icon: 'map' }, // TODO
       //{ name: 'Gubu', icon: 'book' }, // TODO
-      { name: 'Événements', icon: 'calendar', destination: 'events' },
+      { name: 'Événements', icon: 'calendar', destination: 'events' }
     ]
     //orga
-    if (user.orga) {
-      content.push(
-        {
-          name: 'Slack',
-          image: require('../assets/images/slack.png'),
-          destination: 'slack',
-        }
-        //{ name: 'Listes', icon: 'tasks' } // TODO
-      )
+    if (user.orga || user.admin) {
+      content.push({
+        name: 'Slack',
+        image: require('../assets/images/slack.png'),
+        destination: 'slack'
+      })
+    }
+    if (user.orga || user.ce || user.admin) {
+      content.push({ name: 'Checkins', icon: 'tasks', destination: 'checkins' })
     }
 
     //ce ou nouveau
@@ -162,7 +165,7 @@ class MainMenu extends React.Component {
     //admin
     if (user.admin) {
       content.push(
-        { name: 'Équipes', icon: 'users', destination: 'teamList' }, // TODO
+        { name: 'Équipes', icon: 'users', destination: 'teamList' },
         { name: 'Étudiants', icon: 'list-ul', destination: 'userList' },
         { name: 'Notifications', icon: 'bullhorn', destination: 'notifs' }
       )
@@ -172,7 +175,7 @@ class MainMenu extends React.Component {
       {
         name: '',
         image: require('../assets/images/ung.png'),
-        destination: 'ung',
+        destination: 'ung'
       },
       /*{
         name: '',
@@ -181,7 +184,7 @@ class MainMenu extends React.Component {
       {
         name: 'Se déconnecter',
         icon: 'sign-out',
-        destination: 'logout',
+        destination: 'logout'
       }
     )
     let gridContent = []
@@ -190,9 +193,9 @@ class MainMenu extends React.Component {
     }
 
     let key = 0
-    gridContent.forEach((row) => {
+    gridContent.forEach(row => {
       let rowContent = []
-      row.forEach((section) => {
+      row.forEach(section => {
         rowContent.push(
           <GridButton
             key={key++}
@@ -234,36 +237,36 @@ class MainMenu extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#C6C6C6',
+    backgroundColor: '#C6C6C6'
   },
   grid: {
     flex: 1,
-    marginTop: 3,
+    marginTop: 3
   },
   row: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   empty: {
     width: Dimensions.get('window').width / 3 - 6,
     height: Dimensions.get('window').width / 3 - 6,
     marginHorizontal: 1,
-    marginVertical: 1,
+    marginVertical: 1
   },
   image: {
     width: Dimensions.get('window').width / 3 - 20,
-    height: Dimensions.get('window').width / 3 - 20,
+    height: Dimensions.get('window').width / 3 - 20
   },
   shortImage: {
     width: Dimensions.get('window').width / 4 - 25,
-    height: Dimensions.get('window').width / 4 - 25,
+    height: Dimensions.get('window').width / 4 - 25
   },
   spin: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 })
 
 export default createStackNavigator({ MainMenu })

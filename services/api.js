@@ -141,10 +141,10 @@ export const fetchUsers = async (name = '') => {
   return res.data
 }
 
-export const fetchTeam = async (id) => {
+export const fetchTeam = async id => {
   const token = await getToken()
   const res = await api.get(`team/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}` }
   })
   return res.data
 }
@@ -152,8 +152,59 @@ export const fetchTeam = async (id) => {
 export const fetchTeams = async () => {
   const token = await getToken()
   const res = await api.get('team', {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}` }
   })
+  return res.data
+}
+
+export const fetchCheckins = async () => {
+  const token = await getToken()
+  const res = await api.get('checkin', {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return res.data
+}
+export const fetchCheckin = async id => {
+  const token = await getToken()
+  const res = await api.get(`checkin/${id}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  return res.data
+}
+
+export const createCheckin = async name => {
+  const token = await getToken()
+  const res = await api.post(
+    `checkin`,
+    { name },
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  )
+  return res.data
+}
+
+export const addUserToCheckin = async (id, uid, force = false) => {
+  const token = await getToken()
+  const res = await api.put(
+    `checkin/${id}/student`,
+    { uid, force },
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  )
+  return res.data
+}
+
+export const removeUserToCheckin = async (id, uid) => {
+  const token = await getToken()
+  const res = await api.put(
+    `checkin/${id}/student/remove`,
+    { uid },
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  )
   return res.data
 }
 

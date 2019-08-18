@@ -13,6 +13,7 @@ import PermsBundle from '../Bundles/PermsBundle/Main'
 import AdminNotificationsBundle from '../Bundles/AdminNotificationsBundle/Main'
 import UserListBundle from '../Bundles/UserListBundle/Main'
 import TeamListBundle from '../Bundles/TeamListBundle/Main'
+import CheckinsBundle from '../Bundles/CheckinsBundle/Main'
 
 const Navigator = createSwitchNavigator(
   {
@@ -30,6 +31,7 @@ const Navigator = createSwitchNavigator(
     AdminNotifications: AdminNotificationsBundle,
     UserList: UserListBundle,
     TeamList: TeamListBundle,
+    Checkins: CheckinsBundle,
   },
   {
     initialRouteName: 'Login',
