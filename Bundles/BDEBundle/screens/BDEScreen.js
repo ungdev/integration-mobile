@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  BackHandler,
   Image,
   Linking,
   ScrollView,
@@ -18,6 +19,16 @@ import SocialButton from '../../../components/SocialButton'
 class UNG extends React.Component {
   static navigationOptions = ({ navigation }) =>
     DefaultTopbar(navigation, 'UTT Net Group')
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
+  }
+  componentWillUnmount() {
+    this.backHandler.remove()
+  }
 
   onClickListener = id => {
     switch (id) {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, View } from 'react-native'
+import { BackHandler, ScrollView, View } from 'react-native'
 import { List as AntList } from '@ant-design/react-native'
 import { fetchTeams } from '../../../services/api'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
@@ -11,7 +11,7 @@ class TeamList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      teams: [],
+      teams: []
     }
   }
 
@@ -21,7 +21,14 @@ class TeamList extends React.Component {
   }
 
   componentDidMount = () => {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
     this.fetchTeams()
+  }
+  componentWillUnmount() {
+    this.backHandler.remove()
   }
 
   render() {
@@ -30,15 +37,15 @@ class TeamList extends React.Component {
       <View>
         <ScrollView>
           <AntList>
-            {teams.map((team) => (
+            {teams.map(team => (
               <AntList.Item
                 key={team.id}
                 onPress={() =>
                   this.props.navigation.push('Team', {
-                    back: true,
-                    team_id: team.id,
+                    team: team
                   })
-                }>
+                }
+              >
                 {team.name}
               </AntList.Item>
             ))}

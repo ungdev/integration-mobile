@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  BackHandler,
   ActivityIndicator,
   ScrollView,
   StyleSheet,
@@ -22,9 +23,16 @@ class CheckinsList extends React.Component {
   }
 
   componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
     this.fetchCheckins()
   }
 
+  componentWillUnmount() {
+    this.backHandler.remove()
+  }
   fetchCheckins = async () => {
     try {
       const checkins = await fetchCheckins()

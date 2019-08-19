@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  BackHandler,
   Dimensions,
   ScrollView,
   StyleSheet,
@@ -26,6 +27,15 @@ class UNG extends React.Component {
       orga: true,
       is_newcomer: true
     }
+  }
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
+  }
+  componentWillUnmount() {
+    this.backHandler.remove()
   }
 
   sendNotification = () => {

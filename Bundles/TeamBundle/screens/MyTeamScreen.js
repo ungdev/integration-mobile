@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  BackHandler,
   Dimensions,
   ScrollView,
   View,
@@ -15,8 +16,14 @@ import { List as AntList } from '@ant-design/react-native'
 import { fetchTeam } from '../../../services/api'
 
 class MyTeam extends React.Component {
-  static navigationOptions = ({ navigation }) =>
-    DefaultTopbar(navigation, 'Mon Équipe', navigation.getParam('back'))
+  static navigationOptions = ({ navigation }) => {
+    const team = navigation.getParam('team')
+    return DefaultTopbar(
+      navigation,
+      team ? team.name : 'Mon Équipe',
+      team ? true : false
+    )
+  }
   constructor(props) {
     super(props)
     this.state = {
@@ -24,12 +31,25 @@ class MyTeam extends React.Component {
     }
   }
   componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      const team = this.props.navigation.getParam('team')
+      if (!team) {
+        this.props.navigation.navigate('Main')
+        return true
+      }
+    })
     this.fetchTeam()
   }
 
+  componentWillUnmount() {
+    this.backHandler.remove()
+  }
   fetchTeam = async () => {
     try {
-      const team = await fetchTeam(this.props.screenProps.user.team_id)
+      const t = this.props.navigation.getParam('team')
+      const team = await fetchTeam(
+        t ? t.id : this.props.screenProps.user.team_id
+      )
       this.setState({ team })
     } catch (e) {
       console.log(e.response || e)
@@ -78,7 +98,8 @@ class MyTeam extends React.Component {
                   }
                 >
                   <Text>
-                    {user.first_name} {user.last_name} {user.surname ? `(${user.surname})`: ''}
+                    {user.first_name} {user.last_name}{' '}
+                    {user.surname ? `(${user.surname})` : ''}
                   </Text>
                   <AntList.Item.Brief>{user.email}</AntList.Item.Brief>
                 </AntList.Item>

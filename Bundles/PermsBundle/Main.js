@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from 'react-navigation'
 import { TabView, TabBar } from 'react-native-tab-view'
-import {  Dimensions, Text } from 'react-native'
+import { BackHandler, Dimensions, Text } from 'react-native'
 
 import TabBarIcon from '../../components/TabBarIcon'
 import MyPerms from './screens/MyPermsScreen'
@@ -55,6 +55,17 @@ class PermBundle extends React.Component {
       routes
     }
   }
+
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
+  }
+  componentWillUnmount() {
+    this.backHandler.remove()
+  }
+
   goTo = destination => this.props.navigation.navigate(destination)
 
   render() {

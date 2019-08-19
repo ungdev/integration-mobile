@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  BackHandler,
   Dimensions,
   Image,
   Linking,
@@ -15,6 +16,15 @@ class UNG extends React.Component {
   static navigationOptions = ({ navigation }) =>
     DefaultTopbar(navigation, 'UTT Net Group')
 
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
+  }
+  componentWillUnmount() {
+    this.backHandler.remove()
+  }
   onClickListener = id => {
     switch (id) {
       case 'events':

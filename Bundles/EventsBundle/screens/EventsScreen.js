@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  BackHandler,
   ScrollView,
   Text,
   View,
@@ -22,7 +23,14 @@ class Events extends React.Component {
   }
 
   componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
     this.fetchEvents()
+  }
+  componentWillUnmount() {
+    this.backHandler.remove()
   }
   fetchEvents = async () => {
     try {

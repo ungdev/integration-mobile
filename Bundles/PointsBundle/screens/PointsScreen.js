@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  BackHandler,
   ScrollView,
   Text,
   View,
@@ -23,7 +24,14 @@ class Points extends React.Component {
   }
 
   componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
     this.fetchFactionsAndPoints()
+  }
+  componentWillUnmount() {
+    this.backHandler.remove()
   }
   fetchFactionsAndPoints = async () => {
     try {

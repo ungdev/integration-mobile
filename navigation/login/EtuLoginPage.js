@@ -23,8 +23,8 @@ class EtuLoginPage extends React.Component {
   }
 
   getUri = async () => {
-    const uri = await getEtuUTTLoginUrl()
-    this.setState({ uri })
+    this.uri = await getEtuUTTLoginUrl()
+    this.setState({ uri: this.uri })
   }
 
   render() {
@@ -64,7 +64,10 @@ class EtuLoginPage extends React.Component {
             onLoadStart={e => {
               console.log('load', e.nativeEvent.url)
               if (e.nativeEvent.url.indexOf('http://etu.utt.fr/user') !== -1) {
-                this.setState({ uri: 'https://etu.utt.fr/user' })
+                this.setState({ uri: this.uri })
+              }
+              if (e.nativeEvent.url.indexOf('http://etu.utt.fr/') !== -1) {
+                this.setState({ uri: this.uri })
               }
               if (e.nativeEvent.url.indexOf('localhost:8100/?') !== -1) {
                 if (

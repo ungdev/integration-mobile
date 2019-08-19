@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  BackHandler,
   ScrollView,
   View,
   StyleSheet,
@@ -31,8 +32,18 @@ class MyProfile extends React.Component {
   }
 
   componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      const user = this.props.navigation.getParam('user')
+      if (!user) {
+        this.props.navigation.navigate('Main')
+        return true
+      }
+    })
     this.fetchUser()
     this.fetchTeam()
+  }
+  componentWillUnmount() {
+    this.backHandler.remove()
   }
 
   fetchTeam = async () => {
@@ -126,7 +137,11 @@ class MyProfile extends React.Component {
 
         {this.state.team && (
           <TouchableOpacity
-            onPress={() => this.props.navigation.push('Team', { back: true, team_id: user.team_id })}
+            onPress={() =>
+              this.props.navigation.push('Team', {
+                team: user.team
+              })
+            }
             style={styles.button}
           >
             <ProfileElement

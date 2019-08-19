@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { BackHandler, ScrollView, Text, View } from 'react-native'
 import { List as AntList, InputItem } from '@ant-design/react-native'
 import { fetchUsers } from '../../../services/api'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
@@ -14,6 +14,16 @@ class UserList extends React.Component {
       users: [],
       name: ''
     }
+  }
+  componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
+    this.fetchUsers()
+  }
+  componentWillUnmount() {
+    this.backHandler.remove()
   }
 
   fetchUsers = async () => {
@@ -32,10 +42,6 @@ class UserList extends React.Component {
     } else {
       this.props.navigation.push('Profile', { user })
     }
-  }
-
-  componentDidMount() {
-    this.fetchUsers()
   }
 
   render() {
