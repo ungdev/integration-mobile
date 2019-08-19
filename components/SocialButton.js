@@ -1,6 +1,6 @@
 import React from 'react'
 import { SocialIcon } from 'react-native-elements'
-import { WebBrowser } from 'expo'
+import * as WebBrowser from 'expo-web-browser'
 
 const openModal = async link => await WebBrowser.openBrowserAsync(link)
 

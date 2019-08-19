@@ -48,7 +48,6 @@ class MyTeam extends React.Component {
         </View>
       )
     }
-    console.log(team)
     return (
       <View style={styles.container}>
         {team === 'error' ? (
@@ -59,7 +58,7 @@ class MyTeam extends React.Component {
             <View style={styles.social}>
               <SocialButton type='facebook' link={team.facebook} />
             </View>
-            <Text style={styles.subtitle}>Faction {team.faction.name}</Text>
+            {team.faction && <Text style={styles.subtitle}>Faction {team.faction.name}</Text>}
             <List.Accordion
               title="Description de l'équipe"
               style={{ backgroundColor: 'white' }}
