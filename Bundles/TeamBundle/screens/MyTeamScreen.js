@@ -58,7 +58,9 @@ class MyTeam extends React.Component {
             <View style={styles.social}>
               <SocialButton type='facebook' link={team.facebook} />
             </View>
-            {team.faction && <Text style={styles.subtitle}>Faction {team.faction.name}</Text>}
+            {team.faction && (
+              <Text style={styles.subtitle}>Faction {team.faction.name}</Text>
+            )}
             <List.Accordion
               title="Description de l'équipe"
               style={{ backgroundColor: 'white' }}
@@ -66,7 +68,6 @@ class MyTeam extends React.Component {
               <Text style={styles.p}>{team.description}</Text>
             </List.Accordion>
             <Text style={styles.subtitle}>Chefs d'équipes :</Text>
-
             <AntList>
               {team.ce.map(user => (
                 <AntList.Item
@@ -77,12 +78,33 @@ class MyTeam extends React.Component {
                   }
                 >
                   <Text>
-                    {user.first_name} {user.last_name} ({user.surname})
+                    {user.first_name} {user.last_name} {user.surname ? `(${user.surname})`: ''}
                   </Text>
                   <AntList.Item.Brief>{user.email}</AntList.Item.Brief>
                 </AntList.Item>
               ))}
             </AntList>
+            {team.newcomers && team.newcomers.length > 0 && (
+              <React.Fragment>
+                <Text style={styles.subtitle}>Nouveaux :</Text>
+                <AntList>
+                  {team.newcomers.map(user => (
+                    <AntList.Item
+                      arrow='horizontal'
+                      key={user.id}
+                      onPress={() =>
+                        this.props.navigation.push('Profile', { user })
+                      }
+                    >
+                      <Text>
+                        {user.first_name} {user.last_name}
+                      </Text>
+                      <AntList.Item.Brief>{user.email}</AntList.Item.Brief>
+                    </AntList.Item>
+                  ))}
+                </AntList>
+              </React.Fragment>
+            )}
             <Text style={{ marginBottom: 20 }} />
           </ScrollView>
         )}
