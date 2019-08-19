@@ -168,8 +168,8 @@ class MainMenu extends React.Component {
     //admin
     if (user.admin) {
       content.push(
-        { name: 'Équipes', icon: 'users', destination: 'teamList' },
-        { name: 'Étudiants', icon: 'list-ul', destination: 'userList' },
+        { name: 'Liste des Équipes', icon: 'users', destination: 'teamList' },
+        { name: 'Liste des Étudiants', icon: 'list-ul', destination: 'userList' },
         { name: 'Notifications', icon: 'bullhorn', destination: 'notifs' }
       )
     }

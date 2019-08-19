@@ -1,11 +1,5 @@
 import React from 'react'
-import {
-  Alert,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native'
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { normalize } from '../../../services/font'
 import DefaultTopbar from '../../../constants/DefaultTopbar'
 import moment from 'moment'
@@ -42,6 +36,20 @@ class PermDetailsScreen extends React.Component {
       [{ text: 'Annuler' }, { text: 'Quitter', onPress: this.leave }]
     )
   }
+  showUTTError = () => {
+    Alert.alert(
+      'Hé non !',
+      "Vous devez être à l'UTT pour rejoindre cette perm ! Sinon, attendez demain, priorité aux présents :)",
+      [{ text: 'ok' }]
+    )
+  }
+  showError = () => {
+    Alert.alert(
+      'Une erreur est survenue',
+      "Une erreur inconnue est survenue, désolé :/",
+      [{ text: 'ok' }]
+    )
+  }
   join = async () => {
     const { user } = this.props.screenProps
     let { perm } = this.state
@@ -57,7 +65,8 @@ class PermDetailsScreen extends React.Component {
       this.setState({ perm })
     } catch (e) {
       console.log(e.response || e)
-      //TODO send error notification
+      if (e && e.response && e.response.status === 403) this.showUTTError()
+      else this.showError()
     }
   }
   leave = async () => {
@@ -69,7 +78,7 @@ class PermDetailsScreen extends React.Component {
       this.setState({ perm })
     } catch (e) {
       console.log(e.response || e)
-      //TODO send error notification
+      this.showError()
     }
   }
   render() {
@@ -77,52 +86,52 @@ class PermDetailsScreen extends React.Component {
     const { user } = screenProps
     const { perm } = this.state
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-          <Text style={styles.title}>{perm.type.name}</Text>
-          <Text style={styles.subtitle}>Lieu : </Text>
-          <Text style={styles.p}>{perm.place}</Text>
-          <Text style={styles.subtitle}>Description : </Text>
-          <Text style={styles.p}>{perm.description}</Text>
-          <Text style={styles.subtitle}>Horraire : </Text>
-          <Text style={styles.p}>{`Le ${moment(perm.start * 1000).format(
-            'DD/MM [de] HH:mm'
-          )} à ${moment(perm.end * 1000).format('HH:mm')}`}</Text>
-          <Text style={styles.subtitle}>Responsables :</Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-            {perm.respos.map(user => (
-              <Tag key={user.id} style={styles.tag}>
-                {user.first_name} {user.last_name}
-              </Tag>
-            ))}
-          </View>
-          <Text style={styles.subtitle}>
-            Permanenciers ({perm.permanenciers.length}/{perm.nbr_permanenciers})
-            :
-          </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-            {perm.permanenciers.map(user => (
-              <Tag key={user.id} style={styles.tag}>
-                {user.first_name} {user.last_name}
-              </Tag>
-            ))}
-          </View>
-          {perm.open && moment(perm.open * 1000).isBefore() &&
-            (perm.permanenciers.find(p => p.id === user.id) ? (
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.title}>{perm.type.name}</Text>
+        <Text style={styles.subtitle}>Lieu : </Text>
+        <Text style={styles.p}>{perm.place}</Text>
+        <Text style={styles.subtitle}>Description : </Text>
+        <Text style={styles.p}>{perm.description}</Text>
+        <Text style={styles.subtitle}>Horraire : </Text>
+        <Text style={styles.p}>{`Le ${moment(perm.start * 1000).format(
+          'DD/MM [de] HH:mm'
+        )} à ${moment(perm.end * 1000).format('HH:mm')}`}</Text>
+        <Text style={styles.subtitle}>Responsables :</Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          {perm.respos.map(user => (
+            <Tag key={user.id} style={styles.tag}>
+              {user.first_name} {user.last_name}
+            </Tag>
+          ))}
+        </View>
+        <Text style={styles.subtitle}>
+          Permanenciers ({perm.permanenciers.length}/{perm.nbr_permanenciers}) :
+        </Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          {perm.permanenciers.map(user => (
+            <Tag key={user.id} style={styles.tag}>
+              {user.first_name} {user.last_name}
+            </Tag>
+          ))}
+        </View>
+        {perm.open &&
+          moment(perm.open * 1000).isBefore() &&
+          (perm.permanenciers.find(p => p.id === user.id) ? (
+            <Button
+              color='red'
+              onPress={this.showLeaveAlert}
+              title='Quitter cette permanence'
+            />
+          ) : (
+            perm.permanenciers.length < perm.nbr_permanenciers && (
               <Button
-                color='red'
-                onPress={this.showLeaveAlert}
-                title='Quitter cette permanence'
+                onPress={this.showJoinAlert}
+                title='Rejoindre cette permanence'
               />
-            ) : (
-              perm.permanenciers.length < perm.nbr_permanenciers && (
-                <Button
-                  onPress={this.showJoinAlert}
-                  title='Rejoindre cette permanence'
-                />
-              )
-            ))}
-          <Text style={{ marginBottom: 20 }} />
-        </ScrollView>
+            )
+          ))}
+        <Text style={{ marginBottom: 20 }} />
+      </ScrollView>
     )
   }
 }
