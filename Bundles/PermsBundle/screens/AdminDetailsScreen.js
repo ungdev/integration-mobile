@@ -136,6 +136,22 @@ class AdminDetailsScreen extends React.Component {
           <Text style={styles.p}>{`Le ${moment(perm.start * 1000).format(
             'DD/MM [de] HH:mm'
           )} à ${moment(perm.end * 1000).format('HH:mm')}`}</Text>
+          {perm.pre_open !== null && (
+            <Text style={styles.subtitle}>Pré ouverture : </Text>
+          )}
+          {perm.pre_open !== null && (
+            <Text style={styles.p}>{`Le ${moment(perm.pre_open * 1000).format(
+              'DD/MM [à] HH:mm'
+            )}`}</Text>
+          )}
+          {perm.open !== null && (
+            <Text style={styles.subtitle}>Ouverture : </Text>
+          )}
+          {perm.open !== null && (
+            <Text style={styles.p}>{`Le ${moment(perm.open * 1000).format(
+              'DD/MM [à] HH:mm'
+            )}`}</Text>
+          )}
 
           <Text style={styles.subtitle}>
             Scanner quelqu'un pour le noter présent
@@ -155,7 +171,11 @@ class AdminDetailsScreen extends React.Component {
           <Text style={styles.subtitle}>Responsables :</Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             {perm.respos.map(user => (
-              <Tag key={user.id} style={styles.tag}>
+              <Tag
+                key={user.id}
+                style={styles.tag}
+                onPress={() => this.props.navigation.push('Profile', { user })}
+              >
                 {user.first_name} {user.last_name}
               </Tag>
             ))}

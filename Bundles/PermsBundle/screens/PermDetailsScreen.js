@@ -46,7 +46,7 @@ class PermDetailsScreen extends React.Component {
   showError = () => {
     Alert.alert(
       'Une erreur est survenue',
-      "Une erreur inconnue est survenue, désolé :/",
+      'Une erreur inconnue est survenue, désolé :/',
       [{ text: 'ok' }]
     )
   }
@@ -85,6 +85,46 @@ class PermDetailsScreen extends React.Component {
     const { screenProps } = this.props
     const { user } = screenProps
     const { perm } = this.state
+
+    let button = null
+    if (perm.open) {
+      // if open date is set, then it's free join, add buttons
+      if (perm.pre_open && moment(perm.pre_open * 1000).isBefore()) {
+        // if there's a pre open date, check if it's passed
+        if (perm.permanenciers.find(p => p.id === user.id)) {
+          button = (
+            <Button
+              color='red'
+              onPress={this.showLeaveAlert}
+              title='Quitter cette permanence'
+            />
+          )
+        } else if (perm.permanenciers.length < perm.nbr_permanenciers)
+          button = (
+            <Button
+              onPress={this.showJoinAlert}
+              title='Rejoindre cette permanence'
+            />
+          )
+      } else if (moment(perm.open * 1000).isBefore()) {
+        // if there's no pre date set, check if open date is in the past
+        if (perm.permanenciers.find(p => p.id === user.id)) {
+          button = (
+            <Button
+              color='red'
+              onPress={this.showLeaveAlert}
+              title='Quitter cette permanence'
+            />
+          )
+        } else if (perm.permanenciers.length < perm.nbr_permanenciers)
+          button = (
+            <Button
+              onPress={this.showJoinAlert}
+              title='Rejoindre cette permanence'
+            />
+          )
+      }
+    }
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>{perm.type.name}</Text>
@@ -99,7 +139,11 @@ class PermDetailsScreen extends React.Component {
         <Text style={styles.subtitle}>Responsables :</Text>
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
           {perm.respos.map(user => (
-            <Tag key={user.id} style={styles.tag}>
+            <Tag
+              key={user.id}
+              style={styles.tag}
+              onPress={() => this.props.navigation.push('Profile', { user })}
+            >
               {user.first_name} {user.last_name}
             </Tag>
           ))}
@@ -107,29 +151,28 @@ class PermDetailsScreen extends React.Component {
         <Text style={styles.subtitle}>
           Permanenciers ({perm.permanenciers.length}/{perm.nbr_permanenciers}) :
         </Text>
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        <View
+          style={{ flexDirection: 'row', flexWrap: 'wrap', marginBottom: 20 }}
+        >
           {perm.permanenciers.map(user => (
-            <Tag key={user.id} style={styles.tag}>
+            <Tag
+              key={user.id}
+              style={styles.tag}
+              onPress={() => this.props.navigation.push('Profile', { user })}
+            >
               {user.first_name} {user.last_name}
             </Tag>
           ))}
         </View>
-        {perm.open &&
-          moment(perm.open * 1000).isBefore() &&
-          (perm.permanenciers.find(p => p.id === user.id) ? (
-            <Button
-              color='red'
-              onPress={this.showLeaveAlert}
-              title='Quitter cette permanence'
-            />
-          ) : (
-            perm.permanenciers.length < perm.nbr_permanenciers && (
-              <Button
-                onPress={this.showJoinAlert}
-                title='Rejoindre cette permanence'
-              />
-            )
-          ))}
+        {perm.open && moment(perm.open * 1000).isAfter() && (
+          <Text>
+            Cette perm ouvrira le{' '}
+            {moment(perm.pre_open * 1000).format('DD/MM [à] HH:mm')} si vous
+            êtes à l'UTT, sinon elle ouvrira pour tout le monde à{' '}
+            {moment(perm.open * 1000).format('DD/MM [à] HH:mm')}
+          </Text>
+        )}
+        {button}
         <Text style={{ marginBottom: 20 }} />
       </ScrollView>
     )

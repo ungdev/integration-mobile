@@ -210,7 +210,7 @@ export const removeUserToCheckin = async (id, uid) => {
 
 export const fetchPerms = async () => {
   const token = await getToken()
-  const res = await api.get('permss', {
+  const res = await api.get('perms', {
     headers: { Authorization: `Bearer ${token}` }
   })
   return res.data

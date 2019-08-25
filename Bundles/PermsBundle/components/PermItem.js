@@ -23,8 +23,7 @@ const PermItem = props => {
         />
         <Card.Body style={styles.body}>
           <Text>{props.description}</Text>
-          {(!props.open ||
-            (props.open && moment(props.open * 1000).isAfter())) && (
+          {!props.open && (
             <Text style={{ color: 'red' }}>Cette perm est imposée</Text>
           )}
         </Card.Body>

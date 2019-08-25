@@ -71,7 +71,7 @@ class MyPermsScreen extends React.Component {
           />
         ))}
         {perms.length === 0 && (
-          <Text>Vous n'avez aucune permanence à venir.</Text>
+          <Text style={{ flex: 1 }}>Vous n'avez aucune permanence à venir.</Text>
         )}
       </ScrollView>
     )

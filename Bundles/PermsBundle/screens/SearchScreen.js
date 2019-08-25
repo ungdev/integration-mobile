@@ -84,6 +84,7 @@ class SearchScreen extends React.Component {
     if (perm.permanenciers.find(p => p.id === this.props.screenProps.user.id))
       return '#a3cdff'
     if (perm.permanenciers.length >= perm.nbr_permanenciers) return 'white'
+    if (!perm.open) return 'white'
     return 'orange'
   }
   onChange = e => this.setState({ selected: e })
@@ -137,7 +138,9 @@ class SearchScreen extends React.Component {
               }
             />
           ))}
-          {perms.length === 0 && <Text>Aucune perm à afficher.</Text>}
+          {perms.length === 0 && (
+            <Text style={{ flex: 1 }}>Aucune perm à afficher.</Text>
+          )}
         </ScrollView>
       </View>
     )
@@ -151,7 +154,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   container: {
-    flex: 1,
     backgroundColor: '#eee',
     flexDirection: 'column',
     alignItems: 'center'
