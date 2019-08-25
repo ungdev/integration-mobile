@@ -86,7 +86,9 @@ class MyProfile extends React.Component {
         <Text style={styles.fullName}>
           {user.first_name} {user.last_name}
         </Text>
-        {user.surname && <Text style={styles.surname}>({user.surname})</Text>}
+        {user.surname !== null && user.surname !== '' && (
+          <Text style={styles.surname}>({user.surname})</Text>
+        )}
         <View style={styles.social}>
           <SocialButton type='facebook' link={user.facebook} />
         </View>
