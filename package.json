@@ -2,10 +2,10 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "eject": "expo eject",
-    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
+    "publish": "expo publish",
+    "build:ios": "expo build:ios",
+    "upload:ios": "expo upload:ios",
+    "build:android": "expo build:android"
   },
   "jest": {
     "preset": "jest-expo"
