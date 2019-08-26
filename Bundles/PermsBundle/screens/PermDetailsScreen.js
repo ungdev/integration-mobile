@@ -73,8 +73,9 @@ class PermDetailsScreen extends React.Component {
       perm.permanenciers = perm.permanenciers.filter(p => p.id !== user.id)
       this.setState({ perm })
     } catch (e) {
-      console.log(e.response || e)
-      this.showError()
+      if (e && e.response && e.response.data && e.response.data.message)
+        this.showCustomError(e.response.data.message)
+      else this.showError()
     }
   }
   render() {
