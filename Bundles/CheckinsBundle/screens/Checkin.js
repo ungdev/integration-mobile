@@ -178,7 +178,7 @@ class Checkin extends React.Component {
                       style={{ width: 20 }}
                     />
                   )}{' '}
-                  {user.first_name} {user.last_name}
+                  {user.first_name.toUpperCase()} {user.last_name.toUpperCase()}
                 </Text>
               </AntList.Item>
             ))}

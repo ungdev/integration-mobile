@@ -38,7 +38,7 @@ class ValidateUser extends React.Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.fullName}>
-          {user.first_name} {user.last_name}
+          {user.first_name.toUpperCase()} {user.last_name.toUpperCase()}
         </Text>
         {user.surname && <Text style={styles.surname}>({user.surname})</Text>}
 

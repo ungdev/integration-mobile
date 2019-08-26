@@ -21,7 +21,9 @@ class MyProfile extends React.Component {
     const user = navigation.getParam('user')
     return DefaultTopbar(
       navigation,
-      user ? user.first_name + ' ' + user.last_name : 'Mon Profil',
+      user
+        ? user.first_name.toUpperCase() + ' ' + user.last_name.toUpperCase()
+        : 'Mon Profil',
       user ? true : false
     )
   }
@@ -97,7 +99,11 @@ class MyProfile extends React.Component {
             onPress={() =>
               this.props.navigation.navigate('QRCode', { code: user.id })
             }
-            title='Afficher mon QR Code'
+            title={
+              this.props.navigation.getParam('user')
+                ? 'Afficher son QR Code'
+                : 'Afficher mon QR Code'
+            }
             icon={<Icon name='qrcode' size={30} color='white' />}
           />
         )}

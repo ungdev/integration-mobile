@@ -36,12 +36,8 @@ class PermDetailsScreen extends React.Component {
       [{ text: 'Annuler' }, { text: 'Quitter', onPress: this.leave }]
     )
   }
-  showUTTError = () => {
-    Alert.alert(
-      'Hé non !',
-      "Vous devez être à l'UTT pour rejoindre cette perm ! Sinon, attendez demain, priorité aux présents :)",
-      [{ text: 'ok' }]
-    )
+  showCustomError = message => {
+    Alert.alert('Erreur !', message, [{ text: 'ok' }])
   }
   showError = () => {
     Alert.alert(
@@ -64,8 +60,8 @@ class PermDetailsScreen extends React.Component {
       })
       this.setState({ perm })
     } catch (e) {
-      console.log(e.response || e)
-      if (e && e.response && e.response.status === 403) this.showUTTError()
+      if (e && e.response && e.response.data && e.response.data.message)
+        this.showCustomError(e.response.data.message)
       else this.showError()
     }
   }
@@ -144,7 +140,7 @@ class PermDetailsScreen extends React.Component {
               style={styles.tag}
               onPress={() => this.props.navigation.push('Profile', { user })}
             >
-              {user.first_name} {user.last_name}
+              {user.first_name.toUpperCase()} {user.last_name.toUpperCase()}
             </Tag>
           ))}
         </View>
@@ -160,16 +156,22 @@ class PermDetailsScreen extends React.Component {
               style={styles.tag}
               onPress={() => this.props.navigation.push('Profile', { user })}
             >
-              {user.first_name} {user.last_name}
+              {user.first_name.toUpperCase()} {user.last_name.toUpperCase()}
             </Tag>
           ))}
         </View>
-        {perm.open && moment(perm.open * 1000).isAfter() && (
+        {perm.open && perm.pre_open && moment(perm.open * 1000).isAfter() && (
           <Text>
             Cette perm ouvrira le{' '}
             {moment(perm.pre_open * 1000).format('DD/MM [à] HH:mm')} si vous
-            êtes à l'UTT, sinon elle ouvrira pour tout le monde à{' '}
+            êtes à l'UTT, sinon elle ouvrira pour tout le monde le{' '}
             {moment(perm.open * 1000).format('DD/MM [à] HH:mm')}
+          </Text>
+        )}
+        {perm.open && !perm.pre_open && moment(perm.open * 1000).isAfter() && (
+          <Text>
+            Cette perm ouvrira le {moment(perm.open * 1000).format('DD/MM [à] HH:mm')} pour tout le
+            monde
           </Text>
         )}
         {button}

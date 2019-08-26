@@ -38,7 +38,7 @@ class AdminDetailsScreen extends React.Component {
   showRemoveAlert = user => {
     Alert.alert(
       'Êtes vous sûr ?',
-      `Vous allez retirer ${user.first_name} ${user.last_name} de la perm`,
+      `Vous allez retirer ${user.first_name.toUpperCase()} ${user.last_name.toUpperCase()} de la perm`,
       [
         { text: 'Annuler' },
         { text: 'Retirer', onPress: () => this.remove(user) }
@@ -176,7 +176,7 @@ class AdminDetailsScreen extends React.Component {
                 style={styles.tag}
                 onPress={() => this.props.navigation.push('Profile', { user })}
               >
-                {user.first_name} {user.last_name}
+                {user.first_name.toUpperCase()} {user.last_name.toUpperCase()}
               </Tag>
             ))}
           </View>
@@ -237,7 +237,7 @@ class AdminDetailsScreen extends React.Component {
                     />
                   )}
                   <Text>
-                    {user.first_name} {user.last_name}
+                    {user.first_name.toUpperCase()} {user.last_name.toUpperCase()}
                   </Text>
                   {(!user.presence || user.presence !== 'present') && (
                     <TouchableOpacity
