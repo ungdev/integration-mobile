@@ -4,11 +4,8 @@
     "slug": "integrationmobile",
     "privacy": "public",
     "sdkVersion": "33.0.0",
-    "platforms": [
-      "ios",
-      "android"
-    ],
-    "version": "3.6.1",
+    "platforms": ["ios", "android"],
+    "version": "3.6.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -19,16 +16,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "fr.uttnetgroup.integration"
     },
     "android": {
       "package": "fr.utt.ung.integration",
-      "versionCode": 306001
+      "versionCode": 306002
     }
   }
 }
