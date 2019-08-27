@@ -55,6 +55,8 @@ class MainMenu extends React.Component {
         break
       case 'events':
         this.props.navigation.navigate('Events')
+      case 'challenge':
+        this.props.navigation.navigate('Challenges')
         break
       case 'ung':
         this.props.navigation.navigate('UNG')
@@ -155,6 +157,11 @@ class MainMenu extends React.Component {
     //ce ou nouveau
     if (user.team) {
       content.push({ name: 'Mon équipe', icon: 'users', destination: 'team' })
+      content.push({
+        name: 'Défis',
+        icon: 'camera-retro',
+        destination: 'challenge'
+      })
     }
 
     // tous sauf nouveau
@@ -169,7 +176,11 @@ class MainMenu extends React.Component {
     if (user.admin) {
       content.push(
         { name: 'Liste des Équipes', icon: 'users', destination: 'teamList' },
-        { name: 'Liste des Étudiants', icon: 'list-ul', destination: 'userList' },
+        {
+          name: 'Liste des Étudiants',
+          icon: 'list-ul',
+          destination: 'userList'
+        },
         { name: 'Notifications', icon: 'bullhorn', destination: 'notifs' }
       )
     }

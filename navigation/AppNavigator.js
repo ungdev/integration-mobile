@@ -15,6 +15,7 @@ import AdminNotificationsBundle from '../Bundles/AdminNotificationsBundle/Main'
 import UserListBundle from '../Bundles/UserListBundle/Main'
 import TeamListBundle from '../Bundles/TeamListBundle/Main'
 import CheckinsBundle from '../Bundles/CheckinsBundle/Main'
+import ChallengesBundle from '../Bundles/ChallengesBundle/Main'
 
 const Navigator = createSwitchNavigator(
   {
@@ -34,9 +35,10 @@ const Navigator = createSwitchNavigator(
     UserList: UserListBundle,
     TeamList: TeamListBundle,
     Checkins: CheckinsBundle,
+    Challenges: ChallengesBundle
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Login'
   }
 )
 
@@ -44,11 +46,11 @@ class AppNavigator extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: null,
+      user: null
     }
   }
 
-  setUser = (user) => this.setState({ user })
+  setUser = user => this.setState({ user })
 
   render() {
     return (
