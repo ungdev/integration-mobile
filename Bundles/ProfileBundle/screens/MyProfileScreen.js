@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Alert,
   BackHandler,
   ScrollView,
   View,
@@ -15,6 +16,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Button from '../../../components/Button'
 import SocialButton from '../../../components/SocialButton'
 import { fetchTeam, fetchUser } from '../../../services/api'
+import { Linking } from 'expo'
 
 class MyProfile extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -71,6 +73,24 @@ class MyProfile extends React.Component {
     }
   }
 
+  showPhonePopup = user => {
+    Alert.alert(
+      'Voulez vous appeler ou envoyer un message ?',
+      `${user.first_name.toUpperCase()} ${user.last_name} ${user.phone}`,
+      [
+        {
+          text: 'Appeler',
+          onPress: () => Linking.openURL(`tel:${user.phone}`)
+        },
+        {
+          text: 'Message',
+          onPress: () => Linking.openURL(`sms:${user.phone}`)
+        },
+        { text: 'Annuler' }
+      ]
+    )
+  }
+
   render() {
     const { user } = this.state
     const thisuser = this.props.screenProps.user
@@ -118,10 +138,23 @@ class MyProfile extends React.Component {
           }
           icon='graduation-cap'
         />
-        <ProfileElement type='E-mail' value={user.email} icon='envelope' />
-        {privateInformation && (
-          <ProfileElement type='Téléphone' value={user.phone} icon='phone' />
+        {user.email !== null && (
+          <TouchableOpacity
+            onPress={() => Linking.openURL(`mailto:${user.email}`)}
+            style={styles.button}
+          >
+            <ProfileElement type='E-mail' value={user.email} icon='envelope' />
+          </TouchableOpacity>
         )}
+        {user.phone !== null && (
+          <TouchableOpacity
+            onPress={() => this.showPhonePopup(user)}
+            style={styles.button}
+          >
+            <ProfileElement type='Téléphone' value={user.phone} icon='phone' />
+          </TouchableOpacity>
+        )}
+
         {user.sex !== null && (
           <ProfileElement
             type='Sexe'

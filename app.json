@@ -8,7 +8,7 @@
       "ios",
       "android"
     ],
-    "version": "3.5.1",
+    "version": "3.6.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -28,7 +28,7 @@
     },
     "android": {
       "package": "fr.utt.ung.integration",
-      "versionCode": 305100
+      "versionCode": 306002
     }
   }
 }
