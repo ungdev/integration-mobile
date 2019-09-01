@@ -68,6 +68,9 @@ class MainMenu extends React.Component {
       case 'notifs':
         this.props.navigation.navigate('AdminNotifications')
         break
+      case 'localisation':
+        this.props.navigation.navigate('Location')
+        break
       case 'checkins':
         this.props.navigation.navigate('Checkins')
         break
@@ -145,11 +148,18 @@ class MainMenu extends React.Component {
     ]
     //orga
     if (user.orga || user.admin) {
-      content.push({
-        name: 'Slack',
-        image: require('../assets/images/slack.png'),
-        destination: 'slack'
-      })
+      content.push(
+        {
+          name: 'Slack',
+          image: require('../assets/images/slack.png'),
+          destination: 'slack'
+        },
+        {
+          name: 'Localisation',
+          icon: 'map-pin',
+          destination: 'localisation'
+        }
+      )
     }
     if (user.orga || user.ce || user.admin) {
       content.push({ name: 'Checkins', icon: 'tasks', destination: 'checkins' })

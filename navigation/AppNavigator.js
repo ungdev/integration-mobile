@@ -15,6 +15,7 @@ import AdminNotificationsBundle from '../Bundles/AdminNotificationsBundle/Main'
 import UserListBundle from '../Bundles/UserListBundle/Main'
 import TeamListBundle from '../Bundles/TeamListBundle/Main'
 import CheckinsBundle from '../Bundles/CheckinsBundle/Main'
+import LocationBundle from '../Bundles/LocationBundle/Main'
 
 const Navigator = createSwitchNavigator(
   {
@@ -34,6 +35,7 @@ const Navigator = createSwitchNavigator(
     UserList: UserListBundle,
     TeamList: TeamListBundle,
     Checkins: CheckinsBundle,
+    Location: LocationBundle,
   },
   {
     initialRouteName: 'Login',
