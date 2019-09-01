@@ -15,7 +15,9 @@ class ValidateUser extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = { pointsPenalty: this.props.navigation.getParam('perm').type.points }
+    this.state = {
+      pointsPenalty: this.props.navigation.getParam('perm').type.points
+    }
   }
 
   validateUser = async () => {
@@ -41,7 +43,9 @@ class ValidateUser extends React.Component {
         <Text style={styles.fullName}>
           {user.first_name.toUpperCase()} {user.last_name.toUpperCase()}
         </Text>
-        {user.surname && <Text style={styles.surname}>({user.surname})</Text>}
+        {user.surname !== null && user.surname !== '' && (
+          <Text style={styles.surname}>({user.surname})</Text>
+        )}
 
         <Divider style={{ width: '90%' }} />
 
@@ -55,9 +59,7 @@ class ValidateUser extends React.Component {
           onChangeText={commentary => this.setState({ commentary })}
           value={this.state.commentary}
         />
-        <Text style={styles.subtitle}>
-          Raison de l'absence si connue :
-        </Text>
+        <Text style={styles.subtitle}>Raison de l'absence si connue :</Text>
         <TextInput
           style={styles.input}
           multiline={true}
@@ -66,7 +68,8 @@ class ValidateUser extends React.Component {
           value={this.state.absence_reason}
         />
         <Text style={styles.subtitle}>
-          Vous pouvez changer la pénalité de points de cette personne, par défaut elle perd tout les points de la perm :
+          Vous pouvez changer la pénalité de points de cette personne, par
+          défaut elle perd tout les points de la perm :
         </Text>
         <NumericInput
           value={this.state.pointsPenalty}

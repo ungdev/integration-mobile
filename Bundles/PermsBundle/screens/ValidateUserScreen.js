@@ -40,7 +40,9 @@ class ValidateUser extends React.Component {
         <Text style={styles.fullName}>
           {user.first_name.toUpperCase()} {user.last_name.toUpperCase()}
         </Text>
-        {user.surname && <Text style={styles.surname}>({user.surname})</Text>}
+        {user.surname !== null && user.surname !== '' && (
+          <Text style={styles.surname}>({user.surname})</Text>
+        )}
 
         <Divider style={{ width: '90%' }} />
 
