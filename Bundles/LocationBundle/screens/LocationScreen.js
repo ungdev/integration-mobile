@@ -1,13 +1,24 @@
 import React from 'react'
-import { Text, View, ScrollView, Spin } from 'react-native'
+import {
+  ActivityIndicator,
+  BackHandler,
+  Text,
+  StyleSheet,
+  ScrollView,
+  View
+} from 'react-native'
 import * as TaskManager from 'expo-task-manager'
 import * as Location from 'expo-location'
 import Button from '../../../components/Button'
 import { sendCoord } from '../../../services/api'
+import DefaultTopbar from '../../../constants/DefaultTopbar'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const LOCATION_TASK_NAME = 'background-location-task'
 
 class LocationScreen extends React.Component {
+  static navigationOptions = ({ navigation }) =>
+    DefaultTopbar(navigation, 'Localisation')
   constructor(props) {
     super(props)
     this.state = {
@@ -16,7 +27,15 @@ class LocationScreen extends React.Component {
   }
 
   componentDidMount() {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      this.props.navigation.navigate('Main')
+      return true
+    })
     this.checkIsActivated()
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove()
   }
 
   checkIsActivated = async () => {
@@ -37,21 +56,25 @@ class LocationScreen extends React.Component {
 
   render() {
     const { isActivated } = this.state
-    if (isActivated === null) return <Spin />
+    if (isActivated === null) {
+      return (
+        <View style={styles.spin}>
+          <ActivityIndicator size='large' color='#4098ff' />
+        </View>
+      )
+    }
     return (
-      <View>
-        <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
-          {!isActivated ? (
-            <Button
-              onPress={() => this.onPress}
-              title='Activer la localisation'
-              icon={<Icon name='map-pin' size={30} color='white' />}
-            />
-          ) : (
-            <Text>La location est activée !</Text>
-          )}
-        </ScrollView>
-      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        {!isActivated ? (
+          <Button
+            onPress={() => this.onPress}
+            title='Activer la localisation'
+            icon={<Icon name='map-pin' size={30} color='white' />}
+          />
+        ) : (
+          <Text>La location est activée !</Text>
+        )}
+      </ScrollView>
     )
   }
 }
@@ -69,6 +92,14 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
     } catch (e) {
       alert(e)
     }
+  }
+})
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 5
   }
 })
 

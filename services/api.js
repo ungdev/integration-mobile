@@ -110,6 +110,7 @@ export const sendAuthorizationCode = async authorization_code => {
     const res = await api.post(`oauth/etuutt/callback`, {
       authorization_code
     })
+    console.log(res.data)
     await AsyncStorage.setItem(ACCESS_TOKEN_KEY, res.data.access_token)
     await AsyncStorage.removeItem(REFRESH_TOKEN_KEY)
     await AsyncStorage.setItem(
