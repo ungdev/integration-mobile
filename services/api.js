@@ -241,6 +241,17 @@ export const validatePerm = async (id, userId, commentary, pointsPenalty) => {
   )
   return res.data
 }
+export const sendCoord = async (lat, long) => {
+  const token = await getToken()
+  const res = await api.post(
+    `coord`,
+    { lat, long },
+    {
+      headers: { Authorization: `Bearer ${token}` }
+    }
+  )
+  return res.data
+}
 
 export const invalidatePerm = async (
   id,

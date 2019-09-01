@@ -19,7 +19,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "fr.uttnetgroup.integration"
+      "bundleIdentifier": "fr.uttnetgroup.integration",
+      "infoPlist": {
+        "UIBackgroundModes": ["location", "fetch"]
+      }
     },
     "android": {
       "package": "fr.utt.ung.integration",
