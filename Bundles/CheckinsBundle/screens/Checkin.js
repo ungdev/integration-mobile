@@ -93,7 +93,13 @@ class Checkin extends React.Component {
       await addUserToCheckin(checkin.id, user.qrcode, true) // force add
       const index = checkin.users.findIndex(u => u.id === user.id)
       if (index > -1) {
-        checkin.users[index].pivot.checked = 1
+        if (checkin.users[index].pivot.checked) {
+          Alert.alert('Attention !', 'Cette personne était déjà validée', [
+            { text: 'ok' }
+          ])
+        } else {
+          checkin.users[index].pivot.checked = 1
+        }
       } else {
         checkin.users.push({
           ...user,
@@ -122,11 +128,17 @@ class Checkin extends React.Component {
     const index = checkin.users.findIndex(u => u.id === user.id)
     try {
       if (index > -1) {
-        await addUserToCheckin(checkin.id, user.qrcode)
-        checkin.users[index].pivot.checked = 1
+        if (checkin.users[index].pivot.checked) {
+          Alert.alert('Attention !', 'Cette personne était déjà validée', [
+            { text: 'ok' }
+          ])
+        } else {
+          await addUserToCheckin(checkin.id, user.qrcode)
+          checkin.users[index].pivot.checked = 1
+        }
         this.setState({ checkin })
       } else {
-        if (checkin.prefilled > 0) {
+        if (checkin.prefilled) {
           this.showForceAddAlert(user)
         } else {
           this.forceAddUser(user)
